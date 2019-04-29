@@ -13,5 +13,6 @@ public:
 	void lastGame();
 private:
 	Board board;
+	bool whoPlay;	//red true, black false
 };
 

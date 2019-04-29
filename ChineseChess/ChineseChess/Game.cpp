@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -56,12 +57,48 @@ bool Game::getInitialType()
 	return true;
 }
 
+/*
+intent: read initial board
+pre: null
+post: null
+*/
 void Game::newGame()
 {
-	//TODO: To initialize the board of game
+	//initial example
+	//4 5 3 2 1 2 3 5 4
+	//0 0 0 0 0 0 0 0 0
+	//0 6 0 0 0 0 0 6 0
+	//7 0 7 0 7 0 7 0 7
+	//0 0 0 0 0 0 0 0 0
+	//0 0 0 0 0 0 0 0 0
+	//14 0 14 0 14 0 14 0 14
+	//0 13 0 0 0 0 0 13 0
+	//0 0 0 0 0 0 0 0 0
+	//11 12 10 9 8 9 10 12 11
+	//1
+
+	//COMPLETED: To initialize the board of game
+
+	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
 }
 
+/*
+intent: read file to board
+pre: null
+post: null
+*/
 void Game::lastGame()
 {
-	//TODO: To read file and set up the board of game
+	//COMPLETED: To read file and set up the board of game
+	
+	string filename;
+	ifstream file;
+	do
+	{
+		cout << "please input filename:" << endl;
+		cin >> filename;
+		file = ifstream(filename);
+	} while (!file.is_open());
+	
+	Game::whoPlay = Game::board.readBoardFile(filename);
 }
