@@ -31,10 +31,6 @@ bool Board::readBoardFile(string filename)
 		Board::board.push_back(v);
 	}
 
-	
-
-
-
 	bool whoPlay;
 	file >> whoPlay;
 	return whoPlay;

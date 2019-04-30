@@ -42,14 +42,14 @@ bool Game::getInitialType()
 	
 	switch (number)
 	{
-	default:
-		return false;
-		break;
 	case 1:
 		newGame();
 		break;
 	case 2:
 		lastGame();
+		break;
+	default:
+		return false;
 		break;
 	}
 	return true;
@@ -77,9 +77,9 @@ void Game::newGame()
 
 	//COMPLETED: To initialize the board of game
 
-
-
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
+
+	Game::display();
 }
 
 /*
@@ -101,4 +101,16 @@ void Game::lastGame()
 	} while (!file.is_open());
 	
 	Game::whoPlay = Game::board.readBoardFile(filename);
+
+	Game::display();
+}
+
+void Game::display()
+{
+	
+}
+
+void Game::setTextStyle(int color, int backgroundColor)
+{
+	SetConsoleTextAttribute(Game::outputHandle, Game::textColors[color] | Game::textColors[backgroundColor] * 16);
 }
