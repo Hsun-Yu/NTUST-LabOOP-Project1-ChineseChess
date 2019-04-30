@@ -1,7 +1,0 @@
-﻿  Board.cpp
-  Chess.cpp
-d:\evan\programming\cpp\ntust_laboop_project1_chinesechess\chinesechess\chinesechess\chess.cpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-  Game.cpp
-  main.cpp
-  正在產生程式碼...
-  ChineseChess.vcxproj -> D:\Evan\Programming\cpp\NTUST_LabOOP_Project1_ChineseChess\ChineseChess\x64\Debug\ChineseChess.exe
