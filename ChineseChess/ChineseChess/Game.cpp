@@ -6,6 +6,7 @@ using namespace std;
 
 Game::Game()
 {
+	Game::initialize();
 }
 
 Game::~Game()
@@ -101,4 +102,24 @@ void Game::lastGame()
 	} while (!file.is_open());
 	
 	Game::whoPlay = Game::board.readBoardFile(filename);
+}
+
+/*
+intent: save game to file
+pre: 
+	string ----filename
+post: null
+*/
+void Game::saveGame(string filename)
+{
+	ofstream file(filename);
+
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH - 1; j++)
+			file << Game::board.board[i][j].typeID << " ";
+
+		file << Game::board.board[i][BOARD_WIDTH - 1].typeID << endl;
+	}
+	file << Game::whoPlay;
 }

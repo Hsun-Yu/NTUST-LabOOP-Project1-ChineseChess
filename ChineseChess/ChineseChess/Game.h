@@ -14,6 +14,8 @@ public:
 
 	//TODO (Even): do display
 	void display();
+
+	void saveGame(string);
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
