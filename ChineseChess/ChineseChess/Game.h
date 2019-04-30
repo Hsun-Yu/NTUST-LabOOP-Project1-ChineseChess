@@ -17,7 +17,11 @@ public:
 	
 	void display();
 
+<<<<<<< HEAD
 	void setTextStyle(int color, int backgroundColor);
+=======
+	void saveGame(string);
+>>>>>>> 34fe8e4270afc3e31bab5c170efc7cdf31ab0629
 private:
 	Board board;
 	bool whoPlay;	//red true, black false

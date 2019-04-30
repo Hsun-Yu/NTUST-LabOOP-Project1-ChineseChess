@@ -4,6 +4,7 @@ using namespace std;
 
 Game::Game()
 {
+	Game::initialize();
 }
 
 Game::~Game()
@@ -110,7 +111,29 @@ void Game::display()
 	
 }
 
+<<<<<<< HEAD
 void Game::setTextStyle(int color, int backgroundColor)
 {
 	SetConsoleTextAttribute(Game::outputHandle, Game::textColors[color] | Game::textColors[backgroundColor] * 16);
 }
+=======
+/*
+intent: save game to file
+pre: 
+	string ----filename
+post: null
+*/
+void Game::saveGame(string filename)
+{
+	ofstream file(filename);
+
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH - 1; j++)
+			file << Game::board.board[i][j].typeID << " ";
+
+		file << Game::board.board[i][BOARD_WIDTH - 1].typeID << endl;
+	}
+	file << Game::whoPlay;
+}
+>>>>>>> 34fe8e4270afc3e31bab5c170efc7cdf31ab0629

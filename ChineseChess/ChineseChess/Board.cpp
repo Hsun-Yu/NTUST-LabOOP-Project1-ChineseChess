@@ -1,5 +1,6 @@
 #include "Board.h"
 
+using namespace std;
 #define BOARD_HEIGHT 10
 #define BOARD_WIDTH 9
 
@@ -35,3 +36,9 @@ bool Board::readBoardFile(string filename)
 	file >> whoPlay;
 	return whoPlay;
 }
+
+vector<Chess>& Board::operator[](int index)
+{
+	return Board::board[index];
+}
+
