@@ -111,12 +111,11 @@ void Game::display()
 	
 }
 
-<<<<<<< HEAD
 void Game::setTextStyle(int color, int backgroundColor)
 {
 	SetConsoleTextAttribute(Game::outputHandle, Game::textColors[color] | Game::textColors[backgroundColor] * 16);
 }
-=======
+
 /*
 intent: save game to file
 pre: 
@@ -136,4 +135,3 @@ void Game::saveGame(string filename)
 	}
 	file << Game::whoPlay;
 }
->>>>>>> 34fe8e4270afc3e31bab5c170efc7cdf31ab0629
