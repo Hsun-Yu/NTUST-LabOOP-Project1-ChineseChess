@@ -1,7 +1,7 @@
 #include "Game.h"
 int main()
 {
-	//HI
+	//HI HSUNYU
 	Game().initialize();
 	return 0;
 }
