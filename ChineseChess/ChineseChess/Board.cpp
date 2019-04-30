@@ -1,11 +1,8 @@
 #include "Board.h"
 
-<<<<<<< HEAD
 using namespace std;
-=======
 #define BOARD_HEIGHT 10
 #define BOARD_WIDTH 9
->>>>>>> 8c9f3f00d6755b786d6590e453cf025315b4eeee
 
 Board::Board()
 {
@@ -34,10 +31,6 @@ bool Board::readBoardFile(string filename)
 
 		Board::board.push_back(v);
 	}
-
-	
-
-
 
 	bool whoPlay;
 	file >> whoPlay;
