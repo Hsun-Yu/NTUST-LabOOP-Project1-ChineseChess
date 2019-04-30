@@ -11,6 +11,9 @@ public:
 	bool getInitialType();
 	void newGame();
 	void lastGame();
+
+	//TODO (Even): do display
+	void display();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
