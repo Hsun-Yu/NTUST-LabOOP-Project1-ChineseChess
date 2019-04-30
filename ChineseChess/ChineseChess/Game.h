@@ -1,4 +1,6 @@
 #include "Board.h"
+#include <iostream>
+#include <fstream>
 
 #pragma once
 class Game

@@ -1,4 +1,6 @@
 #include <vector>
+#include <fstream>
+#include <iostream>
 #include "Chess.h"
 
 using namespace std;

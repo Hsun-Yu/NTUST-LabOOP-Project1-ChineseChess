@@ -1,16 +1,11 @@
 #include "Board.h"
-#include <fstream>
-
 
 #define BOARD_HEIGHT 10
 #define BOARD_WIDTH 9
 
-
-using namespace std;
-
 Board::Board()
 {
-	
+
 }
 
 /*
@@ -35,6 +30,10 @@ bool Board::readBoardFile(string filename)
 
 		Board::board.push_back(v);
 	}
+
+	
+
+
 
 	bool whoPlay;
 	file >> whoPlay;
