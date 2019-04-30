@@ -17,17 +17,14 @@ public:
 	
 	void display();
 
-<<<<<<< HEAD
 	void setTextStyle(int color, int backgroundColor);
-=======
 	void saveGame(string);
->>>>>>> 34fe8e4270afc3e31bab5c170efc7cdf31ab0629
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
 	HANDLE outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	// ¶Â¥Õ¬õºñÂÅ«Cµµ
+	// ï¿½Â¥Õ¬ï¿½ï¿½ï¿½ï¿½Å«Cï¿½ï¿½
 	int textColors[7] = {
 		0,
 		FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
