@@ -1,6 +1,4 @@
 #include "Game.h"
-#include <iostream>
-#include <fstream>
 
 using namespace std;
 
@@ -79,6 +77,8 @@ void Game::newGame()
 	//1
 
 	//COMPLETED: To initialize the board of game
+
+
 
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
 }
