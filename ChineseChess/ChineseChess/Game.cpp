@@ -2,6 +2,9 @@
 
 using namespace std;
 
+HANDLE Game::outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+COORD Game::cursorXY;
+
 Game::Game()
 {
 	Game::initialize();
@@ -106,11 +109,45 @@ void Game::lastGame()
 	Game::display();
 }
 
+void Game::outputCount(string str, int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		cout << str;
+	}
+}
+
 void Game::display()
 {
+	system("cls");
+	ifstream inputS("Chessboard\\board_template.txt");
+	string str;
 
 	
+	while (getline(inputS, str))
+	{
+		cout << str << endl;
+	}
+
+	// Board start in (29, 2) (¶Â¨®)
+	setTextStyle(PURPLE, WHITE);
+	setCursorXY(29, 1);
+	cout << "¢°¡@¢±¡@¢²¡@¢³¡@¢´¡@¢µ¡@¢¶¡@¢·¡@¢¸";
+
+	setTextStyle(BLACK, GRAY);
+	setCursorXY(29, 2);
+	cout << "ùÝùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùß ";
+	
+	setCursorXY(29, 3);
+	cout << "ùø   |   |   | ¢­ | ¢¬ |   |   |   ùø ";
+
+	setCursorXY(29, 4);
+	cout << "ùø ¡X| ¡X| ¡X| ¡X| ¡X| ¡X| ¡X| ¡Xùø ";
+	// ¢­¢¬
+	
+
 }
+
 
 /*
 	intent: Change text style
@@ -122,6 +159,18 @@ void Game::display()
 void Game::setTextStyle(int color, int backgroundColor)
 {
 	SetConsoleTextAttribute(Game::outputHandle, color | (backgroundColor * 16));
+}
+
+void Game::setCursorXY(int x, int y)
+{
+	Game::cursorXY.X = x;
+	Game::cursorXY.Y = y;
+	SetConsoleCursorPosition(Game::outputHandle, Game::cursorXY);
+}
+
+void Game::moveCursor(int x, int y)
+{
+	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
 }
 
 /*
