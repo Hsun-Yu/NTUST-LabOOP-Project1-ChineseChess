@@ -108,12 +108,20 @@ void Game::lastGame()
 
 void Game::display()
 {
+
 	
 }
 
+/*
+	intent: Change text style
+	pre: 
+		int color: BLACK, WHITE, RED, GREEN, BLUEL, CYAN, PURPLE
+		int backgroundColor: Same with color.
+	post: void.
+*/
 void Game::setTextStyle(int color, int backgroundColor)
 {
-	SetConsoleTextAttribute(Game::outputHandle, Game::textColors[color] | Game::textColors[backgroundColor] * 16);
+	SetConsoleTextAttribute(Game::outputHandle, color | (backgroundColor * 16));
 }
 
 /*
