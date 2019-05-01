@@ -30,13 +30,26 @@ public:
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
 	void outputCount(string str, int count);
+	//void markOnScreen(Position);
 
 	void saveGame(string);
+
+	//void inGame();	//use while loop to scan the keyboard code
+	//void nextUp(vector<Position>);	//type Up
+	//void nextDown(vector<Position>);	//type down
+	//void nextRight(vector<Position>);	//type right
+	//void nextLeft(vector<Position>);	//type left
+	//void selectChess();				//type enter
+	//void move(Position);
+	//void eat();
+	//void showOption();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
 
 	static HANDLE outputHandle;
 	static COORD cursorXY;
+
+	//Position chessMarkPosition;
 };
 

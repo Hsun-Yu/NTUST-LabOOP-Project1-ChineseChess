@@ -17,5 +17,8 @@ public:
 	vector<vector<Chess>> board;
 
 	vector<Chess> & operator [](int);
+	
+	//vector<Position> whereCanGo(Position);	//use position to get ChessTypeID and return every where possible
+	//vector<Position> whereCanEat(Position);	//use position to get ChessTypeID and return every where possible
 };
 
