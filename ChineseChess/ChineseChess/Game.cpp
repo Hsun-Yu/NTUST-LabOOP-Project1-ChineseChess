@@ -1,5 +1,4 @@
 ﻿#include "Game.h"
-#include "Position.h"
 
 using namespace std;
 
@@ -275,16 +274,18 @@ void Game::inGame()
 	while (1)
 	{
 		cout << "Input:";
-		char c;
+		char c = 0;
 		char garbage;
-		c = getch();
+		//c = getch();
+		c = _getch();
 		if (c == 13)
 			cout << "Enter" << endl; //Enter
 		else if (c == 8)
 			cout << "Back" << endl; //返回
 		else
 		{
-			c = getch();
+			//c = getch();
+			c = _getch();
 			switch (c)
 			{
 			case 72:cout << "up" << endl; break; //上
