@@ -289,7 +289,29 @@ void Game::saveGame(string filename)
 
 void Game::inGame()
 {
-	//TODO (Joh): in game
+	while (1)
+	{
+		cout << "Input:";
+		char c;
+		char garbage;
+		c = getch();
+		if (c == 13)
+			cout << "Enter" << endl; //Enter
+		else if (c == 8)
+			cout << "Back" << endl; //返回
+		else
+		{
+			c = getch();
+			switch (c)
+			{
+			case 72:cout << "up" << endl; break; //上
+			case 80:cout << "down" << endl; break; //下
+			case 75:cout << "left" << endl; break; //左
+			case 77:cout << "right" << endl; break; //右
+			default: break;
+			}
+		}
+	}
 }
 
 vector<Position> Game::getAllRedPosition()

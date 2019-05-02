@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <fstream>
 #include <Windows.h>
+#include <conio.h>
 #include "Position.h"
 
 #define BLACK 0
@@ -35,12 +36,8 @@ public:
 
 	void saveGame(string);
 
-	void inGame();	//use while loop to scan the keyboard code
-	//void nextUp(vector<Position>);	//type Up
-	//void nextDown(vector<Position>);	//type down
-	//void nextRight(vector<Position>);	//type right
-	//void nextLeft(vector<Position>);	//type left
-	//void back()
+	void inGame();//use while loop to scan the keyboard code
+	
 	//void selectChess();				//type enter
 	//void move(Position);
 	//void showOption();
