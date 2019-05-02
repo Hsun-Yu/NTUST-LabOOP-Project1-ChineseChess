@@ -42,7 +42,12 @@ Post:
 bool Game::getInitialType()
 {
 	int number;
-	cin >> number;
+
+	//edit
+
+	//cin >> number;
+
+	number = 1;
 	
 	switch (number)
 	{
@@ -136,16 +141,23 @@ void Game::display()
 
 	setTextStyle(BLACK, GRAY);
 	setCursorXY(29, 2);
-	cout << "╔═══════════════════════════════╗ ";
+	//cout << "╔══════════════ 將═══════════════╗ ";
+	cout << "　－－－－－－－將－－－－－－－　";
 	
+
 	setCursorXY(29, 3);
-	cout << "║   |   |   | ╲ | ╱ |   |   |   ║ ";
+	//cout << "║   |   |   | ╲ | ╱ |   |   |   ║ ";
+	cout << "｜　｜　｜　｜＼｜／｜　｜　｜　｜";
 
 	setCursorXY(29, 4);
-	cout << "║ —| —| —| —| —| —| —| —║ ";
-	// ╲╱
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 5);
+	cout << "｜　｜　｜　｜／｜＼｜　｜　｜　｜";
 	
 
+	setCursorXY(0, 30);
+	system("pause");
 }
 
 
