@@ -44,6 +44,9 @@ public:
 	//void selectChess();				//type enter
 	//void move(Position);
 	//void showOption();
+
+	vector<Position> getAllRedPosition();
+	vector<Position> getAllBlackPosition();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false

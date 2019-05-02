@@ -291,3 +291,35 @@ void Game::inGame()
 {
 	//TODO (Joh): in game
 }
+
+vector<Position> Game::getAllRedPosition()
+{
+	vector<Position> res;
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if (Game::board[i][j].typeID > 7)
+			{
+				res.push_back(Position(i, j));
+			}
+		}
+	}
+	return res;
+}
+
+vector<Position> Game::getAllBlackPosition()
+{
+	vector<Position> res;
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if (Game::board[i][j].typeID < 8)
+			{
+				res.push_back(Position(i, j));
+			}
+		}
+	}
+	return res;
+}
