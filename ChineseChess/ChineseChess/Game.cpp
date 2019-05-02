@@ -1,4 +1,4 @@
-#include "Game.h"
+ï»¿#include "Game.h"
 
 using namespace std;
 
@@ -129,21 +129,21 @@ void Game::display()
 		cout << str << endl;
 	}
 
-	// Board start in (29, 2) (¶Â¨®)
+	// Board start in (29, 2) (é»‘è»Š)
 	setTextStyle(PURPLE, WHITE);
 	setCursorXY(29, 1);
-	cout << "¢°¡@¢±¡@¢²¡@¢³¡@¢´¡@¢µ¡@¢¶¡@¢·¡@¢¸";
+	cout << "ï¼‘ã€€ï¼’ã€€ï¼“ã€€ï¼”ã€€ï¼•ã€€ï¼–ã€€ï¼—ã€€ï¼˜ã€€ï¼™";
 
 	setTextStyle(BLACK, GRAY);
 	setCursorXY(29, 2);
-	cout << "ùÝùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùß ";
+	cout << "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•— ";
 	
 	setCursorXY(29, 3);
-	cout << "ùø   |   |   | ¢­ | ¢¬ |   |   |   ùø ";
+	cout << "â•‘   |   |   | â•² | â•± |   |   |   â•‘ ";
 
 	setCursorXY(29, 4);
-	cout << "ùø ¡X| ¡X| ¡X| ¡X| ¡X| ¡X| ¡X| ¡Xùø ";
-	// ¢­¢¬
+	cout << "â•‘ â€”| â€”| â€”| â€”| â€”| â€”| â€”| â€”â•‘ ";
+	// â•²â•±
 	
 
 }
