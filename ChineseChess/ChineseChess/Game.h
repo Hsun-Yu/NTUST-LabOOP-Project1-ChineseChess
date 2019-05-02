@@ -39,9 +39,9 @@ public:
 	//void nextDown(vector<Position>);	//type down
 	//void nextRight(vector<Position>);	//type right
 	//void nextLeft(vector<Position>);	//type left
+	//void back()
 	//void selectChess();				//type enter
 	//void move(Position);
-	//void eat();
 	//void showOption();
 private:
 	Board board;
@@ -51,5 +51,6 @@ private:
 	static COORD cursorXY;
 
 	//Position chessMarkPosition;
+	//int selectType;
 };
 
