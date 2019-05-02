@@ -331,7 +331,7 @@ Position Game::Up(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.x; j >= 0 ; j--)
 				{
-					if(Board::board[i][j] >= 8 || Board::board[i][j] <= 14)
+					if(Game::board[i][j].typeID >= 8 && Game::board[i][j].typeID <= 14)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
@@ -348,7 +348,7 @@ Position Game::Up(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.x ; j >= 0 ; j--)
 				{
-					if(Board::board[i][j] >= 1 || Board::board[i][j] <= 7)
+					if(Game::board[i][j].typeID >= 1 && Game::board[i][j].typeID <= 7)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
@@ -374,7 +374,7 @@ Position Game::Down(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.x; j < BOARD_HEIGHT ; j++)
 				{
-					if(Board::board[i][j] >= 8 || Board::board[i][j] <= 14)
+					if(Game::board[i][j].typeID >= 8 && Game::board[i][j].typeID <= 14)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
@@ -391,7 +391,7 @@ Position Game::Down(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.x ; j < BOARD_HEIGHT ; j++)
 				{
-					if(Board::board[i][j] >= 1 || Board::board[i][j] <= 7)
+					if(Game::board[i][j].typeID >= 1 && Game::board[i][j].typeID <= 7)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
@@ -417,7 +417,7 @@ Position Game::Left(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.y; j >= 0 ; j--)
 				{
-					if(Board::board[i][j] >= 8 || Board::board[i][j] <= 14)
+					if(Game::board[i][j].typeID >= 8 && Game::board[i][j].typeID <= 14)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
@@ -434,7 +434,7 @@ Position Game::Left(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.y; j >= 0 ; j--)
 				{
-					if(Board::board[i][j] >= 1 || Board::board[i][j] <= 7)
+					if(Game::board[i][j].typeID >= 1 && Game::board[i][j].typeID <= 7)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
@@ -460,7 +460,7 @@ Position Game::Right(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.y; j < BOARD_WIDTH ; j++)
 				{
-					if(Board::board[i][j] >= 8 || Board::board[i][j] <= 14)
+					if(Game::board[i][j].typeID >= 8 && Game::board[i][j].typeID <= 14)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
@@ -477,7 +477,7 @@ Position Game::Right(Position chessMarkPosition)
 			{
 				for(int j = Game::chessMarkPosition.y; j < BOARD_WIDTH ; j++)
 				{
-					if(Board::board[i][j] >= 1 || Board::board[i][j] <= 7)
+					if(Game::board[i][j].typeID >= 1 && Game::board[i][j].typeID <= 7)
 					{
 						Game::chessMarkPosition.x = i;
 						Game::chessMarkPosition.y = j;
