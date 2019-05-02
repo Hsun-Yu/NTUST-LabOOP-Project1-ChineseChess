@@ -10,7 +10,7 @@ public:
 	Chess(int);
 
 	int typeID;		// see showArray
-	bool colour;	// black is true, red is false
+	bool colour;	// black is false, red is true
 	string show;	// the word will show on the board
 
 private:

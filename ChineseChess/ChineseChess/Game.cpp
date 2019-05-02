@@ -31,6 +31,8 @@ void Game::initialize()
 		else
 			break;
 	}
+	
+	int x = getchar();
 }
 
 /*
@@ -43,10 +45,8 @@ bool Game::getInitialType()
 {
 	int number;
 
-	//edit
-
+	//TODO: For test !!!!!!!
 	//cin >> number;
-
 	number = 1;
 	
 	switch (number)
@@ -127,26 +127,25 @@ void Game::display()
 	system("cls");
 	ifstream inputS("Chessboard\\board_template.txt");
 	string str;
-
 	
 	while (getline(inputS, str))
 	{
 		cout << str << endl;
 	}
 
+	inputS.close();
+
 	// Board start in (29, 2) (黑車)
+
 	setTextStyle(PURPLE, WHITE);
 	setCursorXY(29, 1);
 	cout << "１　２　３　４　５　６　７　８　９";
 
-	setTextStyle(BLACK, GRAY);
+	setTextStyle(BLACK, WHITE);
 	setCursorXY(29, 2);
-	//cout << "╔══════════════ 將═══════════════╗ ";
-	cout << "　－－－－－－－將－－－－－－－　";
+	cout << "　－－－－－－－－－－－－－－－　";
 	
-
 	setCursorXY(29, 3);
-	//cout << "║   |   |   | ╲ | ╱ |   |   |   ║ ";
 	cout << "｜　｜　｜　｜＼｜／｜　｜　｜　｜";
 
 	setCursorXY(29, 4);
@@ -154,7 +153,59 @@ void Game::display()
 
 	setCursorXY(29, 5);
 	cout << "｜　｜　｜　｜／｜＼｜　｜　｜　｜";
-	
+
+	setCursorXY(29, 6);
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 7);
+	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
+
+	setCursorXY(29, 8);
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 9);
+	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
+
+	setCursorXY(29, 10);
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 11);
+	cout << "｜　　　楚河　　　　　漢界　　　｜";
+
+	setCursorXY(29, 12);
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 13);
+	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
+
+	setCursorXY(29, 14);
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 15);
+	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
+
+	setCursorXY(29, 16);
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 17);
+	cout << "｜　｜　｜　｜＼｜／｜　｜　｜　｜";
+
+	setCursorXY(29, 18);
+	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
+
+	setCursorXY(29, 19);
+	cout << "｜　｜　｜　｜／｜＼｜　｜　｜　｜";
+
+	setCursorXY(29, 20);
+	cout << "　－－－－－－－－－－－－－－－　";
+
+	setTextStyle(PURPLE, WHITE);
+	setCursorXY(29, 21);
+	cout << "九　八　七　六　五　四　三　二　一";
+
+
+
+
 
 	setCursorXY(0, 30);
 	system("pause");
