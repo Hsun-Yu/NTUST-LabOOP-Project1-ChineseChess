@@ -123,8 +123,6 @@ void Game::lastGame()
 	} while (!file.is_open());
 	
 	Game::whoPlay = Game::board.readBoardFile(filename);
-
-	Game::display();
 }
 
 void Game::outputCount(string str, int count)
@@ -216,12 +214,19 @@ void Game::display()
 	setCursorXY(24, 21);
 	cout << "九　八　七　六　五　四　三　二　一";
 
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if (Game::board[i][j].typeID == 0) continue;
+			Game::board[i][j].colour ? setTextStyle(RED, GRAY) : setTextStyle(BLACK, GRAY);
+			setCursorXY(24 + j * 4, 2 + i * 2);
+			cout << Game::board[i][j].show;
+		}
+	}
 
-	//TODO (Even): show chesses from Game::board
-
-
-	setCursorXY(0, 30);
-	system("pause");
+	setTextStyle(WHITE, BLACK);
+	setCursorXY(0, 26);
 }
 
 

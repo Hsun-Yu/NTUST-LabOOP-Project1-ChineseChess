@@ -16,5 +16,6 @@ Chess::Chess(int typeID)
 	//COMPLETED: use typeID to get the show string
 	Chess::colour = typeID > 7;
 	Chess::typeID = typeID;
-	Chess::show = Chess::showArray.substr(typeID * 2, 2);
+	Chess::show = Chess::showArray.substr(typeID * 3, 3);
+
 }
