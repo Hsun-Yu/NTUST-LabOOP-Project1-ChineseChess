@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <fstream>
 #include <Windows.h>
+#include "Position.h"
 
 #define BLACK 0
 #define WHITE FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY
@@ -34,7 +35,7 @@ public:
 
 	void saveGame(string);
 
-	//void inGame();	//use while loop to scan the keyboard code
+	void inGame();	//use while loop to scan the keyboard code
 	//void nextUp(vector<Position>);	//type Up
 	//void nextDown(vector<Position>);	//type down
 	//void nextRight(vector<Position>);	//type right
@@ -50,7 +51,7 @@ private:
 	static HANDLE outputHandle;
 	static COORD cursorXY;
 
-	//Position chessMarkPosition;
+	Position chessMarkPosition;
 	//int selectType;
 };
 

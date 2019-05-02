@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include "Position.h"
 
 using namespace std;
 
@@ -8,6 +9,8 @@ COORD Game::cursorXY;
 Game::Game()
 {
 	Game::initialize();
+	Game::display();
+	Game::inGame();
 }
 
 Game::~Game()
@@ -32,7 +35,37 @@ void Game::initialize()
 			break;
 	}
 	
-	int x = getchar();
+	//int x = getchar();
+
+	if (Game::whoPlay)
+	{
+		//red
+
+		for (int i = 0; i < BOARD_HEIGHT; i++)
+		{
+			for (int j = 0; j < BOARD_WIDTH; j++)
+			{
+				if (Game::board[i][j].typeID == 8)
+				{
+					Game::chessMarkPosition = Position(i, j);
+				}
+			}
+		}
+	}
+	else
+	{
+		//black
+		for (int i = 0; i < BOARD_HEIGHT; i++)
+		{
+			for (int j = 0; j < BOARD_WIDTH; j++)
+			{
+				if (Game::board[i][j].typeID == 1)
+				{
+					Game::chessMarkPosition = Position(i, j);
+				}
+			}
+		}
+	}
 }
 
 /*
@@ -87,8 +120,6 @@ void Game::newGame()
 	//COMPLETED: To initialize the board of game
 
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
-
-	Game::display();
 }
 
 /*
@@ -254,4 +285,9 @@ void Game::saveGame(string filename)
 		file << Game::board.board[i][BOARD_WIDTH - 1].typeID << endl;
 	}
 	file << Game::whoPlay;
+}
+
+void Game::inGame()
+{
+	//TODO (Joh): in game
 }
