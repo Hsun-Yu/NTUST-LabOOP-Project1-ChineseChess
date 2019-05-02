@@ -77,7 +77,7 @@ Post:
 bool Game::getInitialType()
 {
 	int number;
-
+	
 	//TODO: For test !!!!!!!
 	//cin >> number;
 	number = 1;
@@ -152,69 +152,69 @@ void Game::display()
 	// Board start in (29, 2) (黑車)
 
 	setTextStyle(PURPLE, WHITE);
-	setCursorXY(29, 1);
+	setCursorXY(24, 1);
 	cout << "１　２　３　４　５　６　７　８　９";
 
 	setTextStyle(BLACK, WHITE);
-	setCursorXY(29, 2);
-	cout << "　－－－－－－－－－－－－－－－　";
+	setCursorXY(24, 2);
+	cout << "－－－－－－－－－－－－－－－－－";
 	
-	setCursorXY(29, 3);
+	setCursorXY(24, 3);
 	cout << "｜　｜　｜　｜＼｜／｜　｜　｜　｜";
 
-	setCursorXY(29, 4);
+	setCursorXY(24, 4);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 5);
+	setCursorXY(24, 5);
 	cout << "｜　｜　｜　｜／｜＼｜　｜　｜　｜";
 
-	setCursorXY(29, 6);
+	setCursorXY(24, 6);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 7);
+	setCursorXY(24, 7);
 	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
 
-	setCursorXY(29, 8);
+	setCursorXY(24, 8);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 9);
+	setCursorXY(24, 9);
 	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
 
-	setCursorXY(29, 10);
+	setCursorXY(24, 10);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 11);
+	setCursorXY(24, 11);
 	cout << "｜　　　楚河　　　　　漢界　　　｜";
 
-	setCursorXY(29, 12);
+	setCursorXY(24, 12);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 13);
+	setCursorXY(24, 13);
 	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
 
-	setCursorXY(29, 14);
+	setCursorXY(24, 14);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 15);
+	setCursorXY(24, 15);
 	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
 
-	setCursorXY(29, 16);
+	setCursorXY(24, 16);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 17);
+	setCursorXY(24, 17);
 	cout << "｜　｜　｜　｜＼｜／｜　｜　｜　｜";
 
-	setCursorXY(29, 18);
+	setCursorXY(24, 18);
 	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
 
-	setCursorXY(29, 19);
+	setCursorXY(24, 19);
 	cout << "｜　｜　｜　｜／｜＼｜　｜　｜　｜";
 
-	setCursorXY(29, 20);
-	cout << "　－－－－－－－－－－－－－－－　";
+	setCursorXY(24, 20);
+	cout << "－－－－－－－－－－－－－－－－－";
 
 	setTextStyle(PURPLE, WHITE);
-	setCursorXY(29, 21);
+	setCursorXY(24, 21);
 	cout << "九　八　七　六　五　四　三　二　一";
 
 
@@ -272,7 +272,29 @@ void Game::saveGame(string filename)
 
 void Game::inGame()
 {
-	//TODO (Joh): in game
+	while (1)
+	{
+		cout << "Input:";
+		char c;
+		char garbage;
+		c = getch();
+		if (c == 13)
+			cout << "Enter" << endl; //Enter
+		else if (c == 8)
+			cout << "Back" << endl; //返回
+		else
+		{
+			c = getch();
+			switch (c)
+			{
+			case 72:cout << "up" << endl; break; //上
+			case 80:cout << "down" << endl; break; //下
+			case 75:cout << "left" << endl; break; //左
+			case 77:cout << "right" << endl; break; //右
+			default: break;
+			}
+		}
+	}
 }
 
 
