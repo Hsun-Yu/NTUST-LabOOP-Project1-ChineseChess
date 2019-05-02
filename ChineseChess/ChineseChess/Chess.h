@@ -7,7 +7,7 @@ using namespace std;
 class Chess
 {
 public:
-	Chess(int);
+	Chess(int typeID);
 
 	int typeID;		// see showArray
 	bool colour;	// black is false, red is true

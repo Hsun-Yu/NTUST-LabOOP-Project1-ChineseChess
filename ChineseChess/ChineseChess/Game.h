@@ -33,7 +33,7 @@ public:
 	void outputCount(string str, int count);
 	//void markOnScreen(Position);
 
-	void saveGame(string);
+	void saveGame(string filename);
 
 	void inGame();	//use while loop to scan the keyboard code
 	//void nextUp(vector<Position>);	//type Up

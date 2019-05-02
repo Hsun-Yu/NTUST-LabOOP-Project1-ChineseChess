@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "Chess.h"
+#include "Position.h"
 
 #define BOARD_HEIGHT 10
 #define BOARD_WIDTH 9
@@ -13,12 +14,12 @@ class Board
 {
 public:
 	Board();
-	bool readBoardFile(string);
+	bool readBoardFile(string filename);
 	vector<vector<Chess>> board;
 
-	vector<Chess> & operator [](int);
+	vector<Chess> & operator [](int index);
 	
-	//vector<Position> whereCanGo(Position);	//use position to get ChessTypeID and return every where possible
-	//vector<Position> whereCanEat(Position);	//use position to get ChessTypeID and return every where possible
+	vector<Position> whereCanGo(Position chessPosition);	//use position to get ChessTypeID and return every where possible
+	vector<Position> whereCanEat(Position chessPosition);	//use position to get ChessTypeID and return every where possible
 };
 

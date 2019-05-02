@@ -104,21 +104,6 @@ post: null
 */
 void Game::newGame()
 {
-	//initial example
-	//4 5 3 2 1 2 3 5 4
-	//0 0 0 0 0 0 0 0 0
-	//0 6 0 0 0 0 0 6 0
-	//7 0 7 0 7 0 7 0 7
-	//0 0 0 0 0 0 0 0 0
-	//0 0 0 0 0 0 0 0 0
-	//14 0 14 0 14 0 14 0 14
-	//0 13 0 0 0 0 0 13 0
-	//0 0 0 0 0 0 0 0 0
-	//11 12 10 9 8 9 10 12 11
-	//1
-
-	//COMPLETED: To initialize the board of game
-
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
 }
 
@@ -129,8 +114,6 @@ post: null
 */
 void Game::lastGame()
 {
-	//COMPLETED: To read file and set up the board of game
-	
 	string filename;
 	ifstream file;
 	do
@@ -235,7 +218,7 @@ void Game::display()
 	cout << "九　八　七　六　五　四　三　二　一";
 
 
-
+	//TODO (Even): show chesses from Game::board
 
 
 	setCursorXY(0, 30);
@@ -292,6 +275,12 @@ void Game::inGame()
 	//TODO (Joh): in game
 }
 
+
+/*
+intent: get all red chesses position
+pre:	null
+post:	vector<Position>	----List of position of red chesses
+*/
 vector<Position> Game::getAllRedPosition()
 {
 	vector<Position> res;
@@ -308,6 +297,11 @@ vector<Position> Game::getAllRedPosition()
 	return res;
 }
 
+/*
+intent: get all black chesses position
+pre:	null
+post:	vector<Position>	----List of position of black chesses
+*/
 vector<Position> Game::getAllBlackPosition()
 {
 	vector<Position> res;
