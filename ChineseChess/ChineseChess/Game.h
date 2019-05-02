@@ -37,12 +37,12 @@ public:
 	void saveGame(string filename);
 
 	void inGame();//use while loop to scan the keyboard code
-	Position Enter(Position  chessMarkPosition);
-	Position Backspace(Position  chessMarkPosition);
-	Position Up(Position  chessMarkPosition);
-	Position Down(Position  chessMarkPosition);
-	Position Left(Position  chessMarkPosition);
-	Position Right(Position  chessMarkPosition);
+	Position Enter(vector <Position>,vector <Position>);
+	Position Backspace(vector <Position>,vector <Position>);
+	Position Up(vector <Position>,vector <Position>);
+	Position Down(vector <Position>,vector <Position>);
+	Position Left(vector <Position>,vector <Position>);
+	Position Right(vector <Position>,vector <Position>);
 	
 	//void selectChess();				//type enter
 	//void move(Position);
