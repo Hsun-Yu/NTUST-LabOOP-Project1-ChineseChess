@@ -19,6 +19,7 @@ public:
 
 	vector<Chess> & operator [](int index);
 	
+	vector<Position> goAndEatShare(Position chessPosition);
 	vector<Position> whereCanGo(Position chessPosition);	//use position to get ChessTypeID and return every where possible
 	vector<Position> whereCanEat(Position chessPosition);	//use position to get ChessTypeID and return every where possible
 };

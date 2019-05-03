@@ -49,13 +49,15 @@ vector<Chess>& Board::operator[](int index)
 }
 
 /*
-intent: get list of all position of where can go
+intent: some type of chesses use the same way to eat or go so this can help to share code
 pre:	Position	----chess position
 post:	vector<Position>	----list of all position of where can go
 */
-vector<Position> Board::whereCanGo(Position chessPosition)
+vector<Position> Board::goAndEatShare(Position chessPosition)
 {
-	//TODO (HsunYu):unfinished
+	if (Board::board[chessPosition.y][chessPosition.x].typeID == 0)
+		return vector<Position>();
+
 	int chessTypeID = Board::board[chessPosition.y][chessPosition.x].typeID;
 	vector<Position> result;
 
@@ -65,7 +67,7 @@ vector<Position> Board::whereCanGo(Position chessPosition)
 	default:
 		break;
 	case 1://將,帥
-		if (chessTypeID == 1)	//將
+		if (chessTypeID <= 7)	//將
 		{
 			//x must in [3, 5]
 			//y must in [0, 2]
@@ -81,7 +83,7 @@ vector<Position> Board::whereCanGo(Position chessPosition)
 				}
 			}
 		}
-		else if (chessTypeID == 8)	//帥
+		else //帥
 		{
 			//x must in [3, 5]
 			//y must in [7, 9]
@@ -99,20 +101,217 @@ vector<Position> Board::whereCanGo(Position chessPosition)
 		}
 		break;
 	case 2://士,仕
+		if (chessTypeID <= 7)	//士
+		{
+			//x must in [3, 5]
+			//y must in [0, 2]
+			for (int i = chessPosition.y - 1; i <= chessPosition.y + 1; i += 2)
+			{
+				for (int j = chessPosition.x - 1; j <= chessPosition.x + 1; j += 2)
+				{
+					if (j >= 3 && j <= 5 && i >= 0 && i <= 2)
+						result.push_back(Position(j, i));
+				}
+			}
+		}
+		else	//仕
+		{
+			//x must in [3, 5]
+			//y must in [7, 9]
+			for (int i = chessPosition.y - 1; i <= chessPosition.y + 1; i += 2)
+			{
+				for (int j = chessPosition.x - 1; j <= chessPosition.x + 1; j += 2)
+				{
+					if (j >= 3 && j <= 5 && i >= 7 && i <= 9)
+						result.push_back(Position(j, i));
+				}
+			}
+		}
 		break;
 	case 3://象,相
+		if (chessTypeID <= 7)	//象
+		{
+			//x must in [0, 8]
+			//y must in [0, 4]
+			for (int i = -1; i <= 1; i += 2)
+			{
+				for (int j = -1; j <= 1; j += 2)
+				{
+					int newI = 2 * i + chessPosition.y;
+					int newJ = 2 * j + chessPosition.x;
+					if (newI >= 0 && newI <= 4 &&
+						newJ >= 0 && newJ <= 8)
+					{
+						if (Board::board[chessPosition.y + i][chessPosition.x + j].typeID == 0)
+							result.push_back(Position(newJ, newI));
+					}
+				}
+			}
+		}
+		else	//相
+		{
+			//x must in [0, 8]
+			//y must in [0, 4]
+			for (int i = -1; i <= 1; i += 2)
+			{
+				for (int j = -1; j <= 1; j += 2)
+				{
+					int newI = 2 * i + chessPosition.y;
+					int newJ = 2 * j + chessPosition.x;
+					if (newI >= 5 && newI <= 9 &&
+						newJ >= 0 && newJ <= 8)
+					{
+						if (Board::board[chessPosition.y + i][chessPosition.x + j].typeID == 0)
+							result.push_back(Position(newJ, newI));
+					}
+				}
+			}
+		}
 		break;
 	case 4://車,車
+	case 6://包,炮
+		//x must in [0, 8]
+		//y must in [0, 9]
+
+		//Search right
+		for (int i = chessPosition.x + 1; i <= 8; i++)
+		{
+			result.push_back(Position(i, chessPosition.y));
+			if (Board::board[chessPosition.y][i].typeID != 0)
+				break;
+		}
+
+		//Search left
+		for (int i = chessPosition.x - 1; i >= 0; i--)
+		{
+			result.push_back(Position(i, chessPosition.y));
+			if (Board::board[chessPosition.y][i].typeID != 0)
+				break;
+		}
+
+		//Search up
+		for (int i = chessPosition.y - 1; i >= 0; i--)
+		{
+			result.push_back(Position(chessPosition.x, i));
+			if (Board::board[i][chessPosition.x].typeID != 0)
+				break;
+		}
+
+		//Search down
+		for (int i = chessPosition.y + 1; i <= 9; i++)
+		{
+			result.push_back(Position(chessPosition.x, i));
+			if (Board::board[i][chessPosition.x].typeID == 0)
+				break;
+		}
 		break;
 	case 5://馬,傌
-		break;
-	case 6://包,炮
+		//x must in [0, 8]
+		//y must in [0, 9]
+
+		//Check right
+		if (chessPosition.x + 2 <= 8)
+		{
+			if (Board::board[chessPosition.y][chessPosition.x + 1].typeID == 0)
+			{
+				if (chessPosition.y - 1 >= 0)
+					result.push_back(Position(chessPosition.x + 2, chessPosition.y - 1));
+				if (chessPosition.y + 1 <= 9)
+					result.push_back(Position(chessPosition.x + 2, chessPosition.y + 1));
+			}
+		}
+
+		//Check left
+		if (chessPosition.x - 2 >= 0)
+		{
+			if (Board::board[chessPosition.y][chessPosition.x - 1].typeID == 0)
+			{
+				if (chessPosition.y - 1 >= 0)
+					result.push_back(Position(chessPosition.x - 2, chessPosition.y - 1));
+				if (chessPosition.y + 1 <= 9)
+					result.push_back(Position(chessPosition.x - 2, chessPosition.y + 1));
+			}
+		}
+
+		//Check up
+		if (chessPosition.y - 2 >= 0)
+		{
+			if (Board::board[chessPosition.y - 1][chessPosition.x].typeID == 0)
+			{
+				if (chessPosition.x - 1 >= 0)
+					result.push_back(Position(chessPosition.x - 1, chessPosition.y - 2));
+				if (chessPosition.x + 1 <= 8)
+					result.push_back(Position(chessPosition.x + 1, chessPosition.y - 2));
+			}
+		}
+
+		//Check down
+		if (chessPosition.y + 2 <= 9)
+		{
+			if (Board::board[chessPosition.y + 1][chessPosition.x].typeID == 0)
+			{
+				if (chessPosition.x - 1 >= 0)
+					result.push_back(Position(chessPosition.x - 1, chessPosition.y + 2));
+				if (chessPosition.x + 1 <= 8)
+					result.push_back(Position(chessPosition.x + 1, chessPosition.y + 2));
+			}
+		}
 		break;
 	case 0://卒,兵
+		if (chessTypeID <= 7)	//卒
+		{
+			if (chessPosition.y <= 4)
+				result.push_back(Position(chessPosition.x, chessPosition.y + 1));
+			else
+			{
+				if (chessPosition.y + 1 <= 9)
+					result.push_back(Position(chessPosition.x, chessPosition.y + 1));
+				if (chessPosition.x - 1 >= 0)
+					result.push_back(Position(chessPosition.x - 1, chessPosition.y));
+				if (chessPosition.x + 1 <= 8)
+					result.push_back(Position(chessPosition.x + 1, chessPosition.y));
+			}
+
+		}
+		else	//兵
+		{
+			if (chessPosition.y >= 5)
+				result.push_back(Position(chessPosition.x, chessPosition.y - 1));
+			else
+			{
+				if (chessPosition.y - 1 >= 0)
+					result.push_back(Position(chessPosition.x, chessPosition.y - 1));
+				if (chessPosition.x - 1 >= 0)
+					result.push_back(Position(chessPosition.x - 1, chessPosition.y));
+				if (chessPosition.x + 1 <= 8)
+					result.push_back(Position(chessPosition.x + 1, chessPosition.y));
+			}
+		}
 		break;
 	}
 
+	return result;
+}
+
+/*
+intent: get list of all position of where can go
+pre:	Position	----chess position
+post:	vector<Position>	----list of all position of where can go
+*/
+vector<Position> Board::whereCanGo(Position chessPosition)
+{
+	vector<Position> result = Board::goAndEatShare(chessPosition);
+
 	//Delete position if the position has already had chess
+	for (int i = 0; i < result.size(); i++)
+	{
+		if (Board::board[result[i].y][result[i].x].typeID != 0)
+		{
+			result.erase(result.begin() + i);
+			i--;
+		}
+	}
+
 	return result;
 }
 
@@ -123,9 +322,124 @@ post:	vector<Position>	----list of all position of where can eat
 */
 vector<Position> Board::whereCanEat(Position chessPosition)
 {
-	//TODO (HsunYu)
+	vector<Position> result;
 	int chessTypeID = Board::board[chessPosition.y][chessPosition.x].typeID;
 
-	return vector<Position>();
+	if (chessTypeID % 7 == 6)	//炮,包
+	{
+		//Up
+		for (int i = chessPosition.y - 1; i >= 1; i--)
+		{
+			if (Board::board[i][chessPosition.x].typeID != 0)
+			{
+				for (int j = i - 1; j >= 0; j--)
+				{
+					if (Board::board[j][chessPosition.x].typeID != 0)
+					{
+						result.push_back(Position(chessPosition.x, j));
+						i = -1;
+						break;
+					}
+				}
+			}
+		}
+
+		//Down
+		for (int i = chessPosition.y + 1; i <= 8; i++)
+		{
+			if (Board::board[i][chessPosition.x].typeID != 0)
+			{
+				for (int j = i + 1; j <= 9; j++)
+				{
+					if (Board::board[j][chessPosition.x].typeID != 0)
+					{
+						result.push_back(Position(chessPosition.x, j));
+						i = 10;
+						break;
+					}
+				}
+			}
+		}
+
+		//Left
+		for (int i = chessPosition.x - 1; i >= 1; i--)
+		{
+			if (Board::board[chessPosition.y][i].typeID != 0)
+			{
+				for (int j = i - 1; j >= 0; j--)
+				{
+					if (Board::board[chessPosition.y][j].typeID != 0)
+					{
+						result.push_back(Position(j, chessPosition.y));
+						i = -1;
+						break;
+					}
+				}
+			}
+		}
+
+		//Right
+		for (int i = chessPosition.x + 1; i <= 7; i++)
+		{
+			if (Board::board[chessPosition.y][i].typeID != 0)
+			{
+				for (int j = i + 1; j <= 8; j++)
+				{
+					if (Board::board[chessPosition.y][j].typeID != 0)
+					{
+						result.push_back(Position(j, chessPosition.y));
+						i = 9;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else if (chessTypeID % 7 == 1)	//將,帥
+	{
+		result = goAndEatShare(chessPosition);
+
+		if (chessTypeID <= 7)	//將
+		{
+			for (int i = chessPosition.y + 1; i <= 9; i++)
+			{
+				if (Board::board[i][chessPosition.x].typeID == 8)	//if is 帥
+					result.push_back(Position(chessPosition.x, i));
+				else if (Board::board[i][chessPosition.x].typeID == 0)
+					continue;
+				else
+					break;
+			}
+		}
+		else	//帥
+		{
+			for (int i = chessPosition.y - 1; i >= 0; i--)
+			{
+				if (Board::board[i][chessPosition.x].typeID == 1)	//if is 將
+					result.push_back(Position(chessPosition.x, i));
+				else if (Board::board[i][chessPosition.x].typeID == 0)
+					continue;
+				else
+					break;
+			}
+		}
+	}
+	else
+		result = goAndEatShare(chessPosition);
+
+	//Delete position of space and my chesses
+	for (int i = 0; i < result.size(); i++)
+	{
+		if (!(chessTypeID <= 7 && Board::board[result[i].y][result[i].x].typeID >= 8) &&
+			!(chessTypeID >= 8 &&
+			Board::board[result[i].y][result[i].x].typeID <= 7 &&
+			Board::board[result[i].y][result[i].x].typeID >= 1))
+		{
+			result.erase(result.begin() + i);
+			i--;
+		}
+	}
+
+	return result;
 }
 
