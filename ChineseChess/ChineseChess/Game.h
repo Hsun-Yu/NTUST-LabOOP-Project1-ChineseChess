@@ -42,7 +42,7 @@ public:
 	Position Left(vector<vector<int>> data);
 	Position Right(vector<vector<int>> data);
 	
-	//void selectChess();				//type enter
+	void selectChess(int& enterCount);				//type enter
 	//void move(Position);
 	//void showOption();
 

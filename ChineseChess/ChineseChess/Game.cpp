@@ -307,17 +307,7 @@ void Game::inGame()
 		c = _getch();
 		if (c == 13) //Enter
 		{
-			enterCount++;
-			if(enterCount == 2) //push_enter_twice
-			{
-				///move()   TODO
-				enterCount = 0; 
-			}
-			else //push_enter_once
-			{
-				Game::lastPosition = Game::chessMarkPosition;
-				//whereCanEat(),whereCanMove() TODO
-			}
+			selectChess(enterCount);
 		}
 		else if (c == 8) //Backspace
 		{
@@ -494,6 +484,20 @@ Position Game::Right(vector<vector<int>> data)
 			}
 			return Game::chessMarkPosition;	//if nothing can find		
 		}
+	}
+}
+void Game::selectChess(int& enterCount)
+{
+	enterCount++;
+	if (enterCount == 2) //push_enter_twice
+	{
+		///move()   TODO
+		enterCount = 0;
+	}
+	else //push_enter_once
+	{
+		Game::lastPosition = Game::chessMarkPosition;
+		//whereCanEat(),whereCanGo() TODO
 	}
 }
 /*
