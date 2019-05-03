@@ -282,7 +282,7 @@ void Game::inGame()
 	vector<Position> allBlackPosition;
 	allBlackPosition = Game::getAllBlackPosition();
 
-	vector<vector<int>> data(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 2));
+	vector<vector<int>> data(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 2)); //nochess = 2
 	for(int i = 0 ; i < BOARD_HEIGHT ; i++)
 	{
 		for(int j = 0 ; j < BOARD_WIDTH ; j++)
@@ -290,46 +290,52 @@ void Game::inGame()
 			for(int k = 0 ; k < allRedPosition.size() ; k++)
 			{
 				if(allRedPosition[k].x == j && allRedPosition[k].y == i)
-						data[i][j] = 0; //red
+						data[i][j] = 0; //red = 0
 			}
 			for(int l = 0 ; l < allBlackPosition.size() ; l++)
 			{
 				if(allBlackPosition[l].x == j && allBlackPosition[l].y == i)
-						data[i][j] = 1; //black
+						data[i][j] = 1; //black = 1
 			}
 		}
 	}
+
+	int enterCount = 0;
 
 	while (1)
 	{
 		char c = 0;
 		c = _getch();
-		if (c == 13)
+		if (c == 13) //Enter
 		{
-			Game::lastPosition = Game::chessMarkPosition;
-			Game::chessMarkPosition = Game::tmpPosition;
+			selectChess(enterCount);
 		}
-		else if (c == 8)
+		else if (c == 8) //Backspace
 		{
-			Game::chessMarkPosition = Game::lastPosition;
+			if(enterCount == 1)
+			{
+				Game::chessMarkPosition = Game::lastPosition;
+				enterCount = 0;
+			}
+			else
+				continue;
 		}
 		else
 		{
-			Game::tmpPosition = Game::chessMarkPosition;
 			c = _getch();
 			switch (c)
 			{
 			case 72:
-				Game::tmpPosition = Up(data, Game::tmpPosition);
+				Game::chessMarkPosition = Up(data); //Up
 				break;
 			case 80:
-				Game::tmpPosition = Down(data, Game::tmpPosition);
+				Game::chessMarkPosition = Down(data); //Down
 				break;
 			case 75:
-				Game::tmpPosition = Left(data, Game::tmpPosition);
+				Game::chessMarkPosition = Left(data); //Left
 				break;
 			case 77:
-				Game::tmpPosition = Right(data, Game::tmpPosition);
+				Game::chessMarkPosition = Right(data); //Right
 				break;
 			default: 
 				break;
@@ -338,284 +344,163 @@ void Game::inGame()
 	}
 }
 
-Position Game::Up(vector<vector<int>> data, Position tmpPosition)
+Position Game::Up(vector<vector<int>> data)
 {
-	if(Game::tmpPosition.y == 0) //hit ceiling
-		return Game::tmpPosition;
+	if(Game::chessMarkPosition.y == 0) //hit ceiling
+		return Game::chessMarkPosition;
 	else
 	{
-
-		if(Game::whoPlay) //red
+		Game::chessMarkPosition.y--;
+		for (int i = Game::chessMarkPosition.y; i >= 0; i--)
 		{
-			Game::tmpPosition.y--;
-			for (int i = Game::tmpPosition.y; i >= 0; i--)
+			if(data[Game::chessMarkPosition.x][i] == Game::whoPlay)
 			{
-				if(data[Game::tmpPosition.x][i] == 0)
-				{
-					Game::tmpPosition.y = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.x + 1) >= BOARD_WIDTH)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.x + 1 ; i < BOARD_WIDTH ; i++)
-				{
-					for(int j = 0 ; j < BOARD_HEIGHT ; j++)
-					{
-						if(data[i][j] == 0)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
-					}
-				}
-				return Game::tmpPosition;	//if nothing can find		
+				Game::chessMarkPosition.y = i;
+				return Game::chessMarkPosition;
 			}
 		}
-		else //black
+		if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
+			return Game::chessMarkPosition;
+		else
 		{
-			Game::tmpPosition.y--;
-			for (int i = Game::tmpPosition.y; i >= 0; i--)
+			for(int i = Game::chessMarkPosition.x + 1 ; i < BOARD_WIDTH ; i++)
 			{
-				if(data[Game::tmpPosition.x][i] == 1)
+				for(int j = 0 ; j < BOARD_HEIGHT ; j++)
 				{
-					Game::tmpPosition.y = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.x + 1) >= BOARD_WIDTH)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.x + 1 ; i < BOARD_WIDTH ; i++)
-				{
-					for(int j = 0 ; j < BOARD_HEIGHT ; j++)
+					if(data[i][j] == Game::whoPlay)
 					{
-						if(data[i][j] == 1)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
+						Game::chessMarkPosition.x = i;
+						Game::chessMarkPosition.y = j;
+						return Game::chessMarkPosition;
 					}
 				}
-				return Game::tmpPosition;	//if nothing can find		
 			}
+			return Game::chessMarkPosition;	//if nothing can find		
 		}
 	}
 }
 
-Position Game::Down(vector<vector<int>> data, Position tmpPosition)
+Position Game::Down(vector<vector<int>> data)
 {
-	if(Game::tmpPosition.y == BOARD_HEIGHT - 1) //hit floor
-		return Game::tmpPosition;
+	if(Game::chessMarkPosition.y == BOARD_HEIGHT - 1) //hit floor
+		return Game::chessMarkPosition;
 	else
 	{
-		if(Game::whoPlay) //red
+		Game::chessMarkPosition.y++;
+		for (int i = Game::chessMarkPosition.y; i < BOARD_HEIGHT ; i++)
 		{
-			Game::tmpPosition.y++;
-			for (int i = Game::tmpPosition.y; i < BOARD_HEIGHT ; i++)
+			if(data[Game::chessMarkPosition.x][i] == Game::whoPlay)
 			{
-				if(data[Game::tmpPosition.x][i] == 0)
-				{
-					Game::tmpPosition.y = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.x + 1) >= BOARD_WIDTH)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.x + 1 ; i < BOARD_WIDTH ; i++)
-				{
-					for(int j = BOARD_HEIGHT - 1 ; j >= 0 ; j--)
-					{
-						if(data[i][j] == 0)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
-					}
-				}
-				return Game::tmpPosition;	//if nothing can find		
+				Game::chessMarkPosition.y = i;
+				return Game::chessMarkPosition;
 			}
 		}
-		else //black
+		if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
+			return Game::chessMarkPosition;
+		else
 		{
-			Game::tmpPosition.y++;
-			for (int i = Game::tmpPosition.y; i < BOARD_HEIGHT ; i++)
+			for(int i = Game::chessMarkPosition.x + 1 ; i < BOARD_WIDTH ; i++)
 			{
-				if(data[Game::tmpPosition.x][i] == 1)
+				for(int j = BOARD_HEIGHT - 1 ; j >= 0 ; j--)
 				{
-					Game::tmpPosition.y = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.x + 1) >= BOARD_WIDTH)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.x + 1 ; i < BOARD_WIDTH ; i++)
-				{
-					for(int j = BOARD_HEIGHT - 1 ; j >= 0 ; j--)
+					if(data[i][j] == Game::whoPlay)
 					{
-						if(data[i][j] == 1)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
+						Game::chessMarkPosition.x = i;
+						Game::chessMarkPosition.y = j;
+						return Game::chessMarkPosition;
 					}
 				}
-				return Game::tmpPosition;	//if nothing can find		
 			}
+			return Game::chessMarkPosition;	//if nothing can find
 		}
 	}
 }
 
-Position Game::Left(vector<vector<int>> data, Position tmpPosition)
+Position Game::Left(vector<vector<int>> data)
 {
-	if(Game::tmpPosition.x == 0) //hit leftwall
-		return Game::tmpPosition;
+	if(Game::chessMarkPosition.x == 0) //hit leftwall
+		return Game::chessMarkPosition;
 	else
 	{
-		if(Game::whoPlay) //red
+		Game::chessMarkPosition.x--;
+		for (int i = Game::chessMarkPosition.x; i >= 0 ; i--)
 		{
-			Game::tmpPosition.x--;
-			for (int i = Game::tmpPosition.x; i >= 0 ; i--)
+			if(data[i][Game::chessMarkPosition.y] == Game::whoPlay)
 			{
-				if(data[i][Game::tmpPosition.y] == 0)
-				{
-					Game::tmpPosition.x = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.y - 1) < 0)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.y - 1 ; i >= 0 ; i--)
-				{
-					for(int j = 0 ; j < BOARD_WIDTH ; j++)
-					{
-						if(data[i][j] == 0)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
-					}
-				}
-				return Game::tmpPosition;	//if nothing can find		
+				Game::chessMarkPosition.x = i;
+				return Game::chessMarkPosition;
 			}
 		}
-		else //black
+		if((Game::chessMarkPosition.y - 1) < 0)
+			return Game::chessMarkPosition;
+		else
 		{
-			Game::tmpPosition.x--;
-			for (int i = Game::tmpPosition.x; i >= 0 ; i--)
+			for(int i = Game::chessMarkPosition.y - 1 ; i >= 0 ; i--)
 			{
-				if(data[i][Game::tmpPosition.y] == 1)
+				for(int j = 0 ; j < BOARD_WIDTH ; j++)
 				{
-					Game::tmpPosition.x = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.y - 1) < 0)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.y - 1 ; i >= 0 ; i--)
-				{
-					for(int j = 0 ; j < BOARD_WIDTH ; j++)
+					if(data[i][j] == Game::whoPlay)
 					{
-						if(data[i][j] == 1)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
+						Game::chessMarkPosition.x = i;
+						Game::chessMarkPosition.y = j;
+						return Game::chessMarkPosition;
 					}
 				}
-				return Game::tmpPosition;	//if nothing can find		
 			}
-		}
+			return Game::chessMarkPosition;	//if nothing can find		
+		}		
 	}
 }
 
-Position Game::Right(vector<vector<int>> data, Position tmpPosition)
+Position Game::Right(vector<vector<int>> data)
 {
-	if(Game::tmpPosition.x == BOARD_WIDTH - 1) //hit rightwall
-		return Game::tmpPosition;
+	if(Game::chessMarkPosition.x == BOARD_WIDTH - 1) //hit rightwall
+		return Game::chessMarkPosition;
 	else
 	{
-		if(Game::whoPlay) //red
+		Game::chessMarkPosition.x++;
+		for (int i = Game::chessMarkPosition.x; i < BOARD_WIDTH ; i++)
 		{
-			Game::tmpPosition.x++;
-			for (int i = Game::tmpPosition.x; i < BOARD_WIDTH ; i++)
+			if(data[i][Game::chessMarkPosition.y] == Game::whoPlay)
 			{
-				if(data[i][Game::tmpPosition.y] == 0)
-				{
-					Game::tmpPosition.x = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.x + 1) >= BOARD_WIDTH)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.y - 1 ; i >= 0 ; i--)
-				{
-					for(int j = BOARD_WIDTH- 1 ; j >= 0 ; j--)
-					{
-						if(data[i][j] == 0)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
-					}
-				}
-				return Game::tmpPosition;	//if nothing can find		
+				Game::chessMarkPosition.x = i;
+				return Game::chessMarkPosition;
 			}
 		}
-		else //black
+		if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
+			return Game::chessMarkPosition;
+		else
 		{
-			Game::tmpPosition.x++;
-			for (int i = Game::tmpPosition.x; i < BOARD_WIDTH ; i++)
+			for(int i = Game::chessMarkPosition.y - 1 ; i >= 0 ; i--)
 			{
-				if(data[i][Game::tmpPosition.y] == 1)
+				for(int j = BOARD_WIDTH- 1 ; j >= 0 ; j--)
 				{
-					Game::tmpPosition.x = i;
-					return Game::tmpPosition;
-				}
-			}
-			if((Game::tmpPosition.x + 1) >= BOARD_WIDTH)
-				return Game::tmpPosition;
-			else
-			{
-				for(int i = Game::tmpPosition.y - 1 ; i >= 0 ; i--)
-				{
-					for(int j = BOARD_WIDTH- 1 ; j >= 0 ; j--)
+					if(data[i][j] == Game::whoPlay)
 					{
-						if(data[i][j] == 1)
-						{
-							Game::tmpPosition.x = i;
-							Game::tmpPosition.y = j;
-							return Game::tmpPosition;
-						}
+						Game::chessMarkPosition.x = i;
+						Game::chessMarkPosition.y = j;
+						return Game::chessMarkPosition;
 					}
 				}
-				return Game::tmpPosition;	//if nothing can find		
 			}
+			return Game::chessMarkPosition;	//if nothing can find		
 		}
 	}
 }
-
-
+void Game::selectChess(int& enterCount)
+{
+	enterCount++;
+	if (enterCount == 2) //push_enter_twice
+	{
+		///move()   TODO
+		enterCount = 0;
+	}
+	else //push_enter_once
+	{
+		Game::lastPosition = Game::chessMarkPosition;
+		//whereCanEat(),whereCanGo() TODO
+	}
+}
 /*
 intent: get all red chesses position
 pre:	null

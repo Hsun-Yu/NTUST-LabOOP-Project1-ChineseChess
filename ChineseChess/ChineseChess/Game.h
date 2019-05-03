@@ -37,12 +37,12 @@ public:
 	void saveGame(string filename);
 
 	void inGame();//use while loop to scan the keyboard code
-	Position Up(vector<vector<int>> data, Position tmpPosition);
-	Position Down(vector<vector<int>> data, Position tmpPosition);
-	Position Left(vector<vector<int>> data, Position tmpPosition);
-	Position Right(vector<vector<int>> data, Position tmpPosition);
+	Position Up(vector<vector<int>> data);
+	Position Down(vector<vector<int>> data);
+	Position Left(vector<vector<int>> data);
+	Position Right(vector<vector<int>> data);
 	
-	//void selectChess();				//type enter
+	void selectChess(int& enterCount);				//type enter
 	//void move(Position);
 	//void showOption();
 
@@ -56,7 +56,6 @@ private:
 	static COORD cursorXY;
 
 	Position chessMarkPosition;
-	Position tmpPosition;
 	Position lastPosition;
 	//int selectType;
 };
