@@ -37,8 +37,6 @@ public:
 	void saveGame(string filename);
 
 	void inGame();//use while loop to scan the keyboard code
-	Position Enter(vector<vector<int>> data, Position tmpPosition);
-	Position Backspace(vector<vector<int>> data, Position tmpPosition);
 	Position Up(vector<vector<int>> data, Position tmpPosition);
 	Position Down(vector<vector<int>> data, Position tmpPosition);
 	Position Left(vector<vector<int>> data, Position tmpPosition);
@@ -59,6 +57,7 @@ private:
 
 	Position chessMarkPosition;
 	Position tmpPosition;
+	Position lastPosition;
 	//int selectType;
 };
 

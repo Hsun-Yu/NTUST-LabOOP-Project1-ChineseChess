@@ -301,15 +301,20 @@ void Game::inGame()
 
 	while (1)
 	{
-		Game::tmpPosition = Game::chessMarkPosition;
 		char c = 0;
 		c = _getch();
 		if (c == 13)
-			Enter(data, Game::tmpPosition);
+		{
+			Game::lastPosition = Game::chessMarkPosition;
+			Game::chessMarkPosition = Game::tmpPosition;
+		}
 		else if (c == 8)
-			Backspace(data, Game::tmpPosition);
+		{
+			Game::chessMarkPosition = Game::lastPosition;
+		}
 		else
 		{
+			Game::tmpPosition = Game::chessMarkPosition;
 			c = _getch();
 			switch (c)
 			{
@@ -330,17 +335,6 @@ void Game::inGame()
 			}
 		}
 	}
-}
-
-Position Game::Enter(vector<vector<int>> data, Position tmpPosition)
-{
-	Game::chessMarkPosition = Game::tmpPosition;
-	return Position();
-}
-
-Position Game::Backspace(vector<vector<int>> data, Position tmpPosition)
-{
-	return Position();
 }
 
 Position Game::Up(vector<vector<int>> data, Position tmpPosition)
