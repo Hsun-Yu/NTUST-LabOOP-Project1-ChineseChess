@@ -308,16 +308,26 @@ void Game::inGame()
 		if (c == 13) //Enter
 		{
 			enterCount++;
-			if(enterCount == 2)
+			if(enterCount == 2) //push_enter_twice
 			{
-				enterCount = 0;
-				///move()   TODO 
+				///move()   TODO
+				enterCount = 0; 
 			}
-			Game::lastPosition = Game::chessMarkPosition;
+			else //push_enter_once
+			{
+				Game::lastPosition = Game::chessMarkPosition;
+				//whereCanEat(),whereCanMove() TODO
+			}
 		}
 		else if (c == 8) //Backspace
 		{
-			Game::chessMarkPosition = Game::lastPosition;
+			if(enterCount == 1)
+			{
+				Game::chessMarkPosition = Game::lastPosition;
+				enterCount = 0;
+			}
+			else
+				continue;
 		}
 		else
 		{
