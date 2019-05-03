@@ -58,6 +58,7 @@ private:
 	static COORD cursorXY;
 
 	Position chessMarkPosition;
+	Position tmpPosition;
 	//int selectType;
 };
 
