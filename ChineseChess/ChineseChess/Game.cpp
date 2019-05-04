@@ -125,6 +125,11 @@ void Game::lastGame()
 	Game::whoPlay = Game::board.readBoardFile(filename);
 }
 
+/*
+intent: Print a string serveral times.
+pre: str, times
+post: void
+*/
 void Game::outputCount(string str, int count)
 {
 	for (int i = 0; i < count; i++)
@@ -225,17 +230,75 @@ void Game::display()
 		}
 	}
 
+	// Move cursor to below
 	setTextStyle(WHITE, BLACK);
 	setCursorXY(0, 26);
+	system("pause");
 }
 
+/*
+intent: Mark the specified position.
+pre: position.
+post: void.
+*/
+void Game::markOnScreen(Position pos, int backgroundColor)
+{
+	int color, typeID = Game::board[pos.y][pos.x].typeID;
+	string show;
+
+	show = Game::board[pos.y][pos.x].show;
+	
+	if(typeID > 7)
+	{
+		color = RED;
+	}
+	else
+	{
+		color = BLACK;
+		if (typeID == 0)
+		{
+			if (pos.y == 0 || pos.y == BOARD_HEIGHT - 1)
+			{
+				show = "－";
+			}
+			else if (pos.x == 0 || pos.x == BOARD_WIDTH - 1)
+			{
+				show = "｜";
+			}
+			else
+			{
+				show = "＋";
+			}
+		}
+	}
+	
+	setTextStyle(color, backgroundColor);
+	setCursorBoardXY(pos);
+	cout << show;
+}
+
+void Game::unmarkOnScreen(Position pos)
+{
+	int backgroundColor, typeID = Game::board[pos.y][pos.x].typeID;
+
+	if (typeID == 0)
+	{
+		backgroundColor = WHITE;
+	}
+	else
+	{
+		backgroundColor = GRAY;
+	}
+
+	Game::markOnScreen(pos, backgroundColor);
+}
 
 /*
-	intent: Change text style
-	pre: 
-		int color: BLACK, WHITE, RED, GREEN, BLUEL, CYAN, PURPLE
-		int backgroundColor: Same with color.
-	post: void.
+intent: Change text style
+pre: 
+	int color: BLACK, WHITE, RED, GREEN, BLUEL, CYAN, PURPLE
+	int backgroundColor: Same with color.
+post: void.
 */
 void Game::setTextStyle(int color, int backgroundColor)
 {
@@ -247,6 +310,11 @@ void Game::setCursorXY(int x, int y)
 	Game::cursorXY.X = x;
 	Game::cursorXY.Y = y;
 	SetConsoleCursorPosition(Game::outputHandle, Game::cursorXY);
+}
+
+void Game::setCursorBoardXY(Position pos)
+{
+	Game::setCursorXY(24 + pos.x * 4, 2 + pos.y * 2);
 }
 
 void Game::moveCursor(int x, int y)
@@ -500,6 +568,7 @@ void Game::selectChess(int& enterCount)
 		//whereCanEat(),whereCanGo() TODO
 	}
 }
+
 /*
 intent: get all red chesses position
 pre:	null

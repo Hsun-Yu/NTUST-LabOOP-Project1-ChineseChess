@@ -17,5 +17,4 @@ Chess::Chess(int typeID)
 	Chess::colour = typeID > 7;
 	Chess::typeID = typeID;
 	Chess::show = Chess::showArray.substr(typeID * 3, 3);
-
 }
