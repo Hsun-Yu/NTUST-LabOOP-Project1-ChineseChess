@@ -77,9 +77,10 @@ bool Game::getInitialType()
 {
 	int number;
 	
+	cin >> number;
+
 	//TODO: For test !!!!!!!
-	//cin >> number;
-	number = 1;
+	//number = 1;
 	
 	switch (number)
 	{
