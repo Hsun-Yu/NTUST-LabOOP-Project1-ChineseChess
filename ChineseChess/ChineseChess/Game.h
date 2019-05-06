@@ -39,10 +39,10 @@ public:
 	void saveGame(string filename);
 
 	void inGame(); //use while loop to scan the keyboard code
-	Position Up(vector<vector<int>> data);
-	Position Down(vector<vector<int>> data);
-	Position Left(vector<vector<int>> data);
-	Position Right(vector<vector<int>> data);
+	Position Up(vector<Position> objPosition);
+	Position Down(vector<Position> objPosition);
+	Position Left(vector<Position> objPosition);
+	Position Right(vector<Position> objPosition);
 	
 	void selectChess(int& enterCount);				//type enter
 	//void move(Position);

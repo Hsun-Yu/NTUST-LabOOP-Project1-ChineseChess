@@ -349,24 +349,12 @@ void Game::inGame()
 	allRedPosition = Game::getAllRedPosition();
 	vector<Position> allBlackPosition;
 	allBlackPosition = Game::getAllBlackPosition();
+	vector<Position> objPosition;
 
-	vector<vector<int>> data(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 2)); //nochess = 2
-	for(int i = 0 ; i < BOARD_HEIGHT ; i++)
-	{
-		for(int j = 0 ; j < BOARD_WIDTH ; j++)
-		{
-			for(int k = 0 ; k < allRedPosition.size() ; k++)
-			{
-				if(allRedPosition[k].x == j && allRedPosition[k].y == i)
-						data[i][j] = 0; //red = 0
-			}
-			for(int l = 0 ; l < allBlackPosition.size() ; l++)
-			{
-				if(allBlackPosition[l].x == j && allBlackPosition[l].y == i)
-						data[i][j] = 1; //black = 1
-			}
-		}
-	}
+	if(whoPlay)
+		objPosition = allRedPosition;
+	else
+		objPosition = allBlackPosition;
 
 	int enterCount = 0;
 
@@ -394,16 +382,16 @@ void Game::inGame()
 			switch (c)
 			{
 			case 72:
-				Game::chessMarkPosition = Up(data); //Up
+				Game::chessMarkPosition = Up(objPosition); //Up
 				break;
 			case 80:
-				Game::chessMarkPosition = Down(data); //Down
+				Game::chessMarkPosition = Down(objPosition); //Down
 				break;
 			case 75:
-				Game::chessMarkPosition = Left(data); //Left
+				Game::chessMarkPosition = Left(objPosition); //Left
 				break;
 			case 77:
-				Game::chessMarkPosition = Right(data); //Right
+				Game::chessMarkPosition = Right(objPosition); //Right
 				break;
 			default: 
 				break;
@@ -412,7 +400,7 @@ void Game::inGame()
 	}
 }
 
-Position Game::Up(vector<vector<int>> data)
+Position Game::Up(vector<Position> objPosition)
 {
 	if(Game::chessMarkPosition.y == 0) //hit ceiling
 		return Game::chessMarkPosition;
@@ -421,10 +409,13 @@ Position Game::Up(vector<vector<int>> data)
 		Game::chessMarkPosition.y--;
 		for (int i = Game::chessMarkPosition.y; i >= 0; i--)
 		{
-			if(data[Game::chessMarkPosition.x][i] == Game::whoPlay)
+			for(int j = 0 ; j < objPosition.size() ; j++)
 			{
-				Game::chessMarkPosition.y = i;
-				return Game::chessMarkPosition;
+				if(objPosition[j].x == chessMarkPosition.x && objPosition[j].y == i)
+				{
+					Game::chessMarkPosition.y = i;
+					return Game::chessMarkPosition;
+				}
 			}
 		}
 		if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
@@ -435,11 +426,14 @@ Position Game::Up(vector<vector<int>> data)
 			{
 				for(int j = 0 ; j < BOARD_HEIGHT ; j++)
 				{
-					if(data[i][j] == Game::whoPlay)
+					for(int k = 0 ; k < objPosition.size() ; k++)
 					{
-						Game::chessMarkPosition.x = i;
-						Game::chessMarkPosition.y = j;
-						return Game::chessMarkPosition;
+						if(objPosition[k].x == i && objPosition[k].y == j)
+						{
+							Game::chessMarkPosition.x = i;
+							Game::chessMarkPosition.y = j;
+							return Game::chessMarkPosition;
+						}
 					}
 				}
 			}
@@ -448,7 +442,7 @@ Position Game::Up(vector<vector<int>> data)
 	}
 }
 
-Position Game::Down(vector<vector<int>> data)
+Position Game::Down(vector<Position> objPosition)
 {
 	if(Game::chessMarkPosition.y == BOARD_HEIGHT - 1) //hit floor
 		return Game::chessMarkPosition;
@@ -457,10 +451,13 @@ Position Game::Down(vector<vector<int>> data)
 		Game::chessMarkPosition.y++;
 		for (int i = Game::chessMarkPosition.y; i < BOARD_HEIGHT ; i++)
 		{
-			if(data[Game::chessMarkPosition.x][i] == Game::whoPlay)
+			for(int j = 0 ; j < objPosition.size() ; j++)
 			{
-				Game::chessMarkPosition.y = i;
-				return Game::chessMarkPosition;
+				if(objPosition[j].x == chessMarkPosition.x && objPosition[j].y == i)
+				{
+					Game::chessMarkPosition.y = i;
+					return Game::chessMarkPosition;
+				}
 			}
 		}
 		if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
@@ -471,11 +468,14 @@ Position Game::Down(vector<vector<int>> data)
 			{
 				for(int j = BOARD_HEIGHT - 1 ; j >= 0 ; j--)
 				{
-					if(data[i][j] == Game::whoPlay)
+					for(int k = 0 ; k < objPosition.size() ; k++)
 					{
-						Game::chessMarkPosition.x = i;
-						Game::chessMarkPosition.y = j;
-						return Game::chessMarkPosition;
+						if(objPosition[k].x == i && objPosition[k].y == j)
+						{
+							Game::chessMarkPosition.x = i;
+							Game::chessMarkPosition.y = j;
+							return Game::chessMarkPosition;
+						}
 					}
 				}
 			}
@@ -484,7 +484,7 @@ Position Game::Down(vector<vector<int>> data)
 	}
 }
 
-Position Game::Left(vector<vector<int>> data)
+Position Game::Left(vector<Position> objPosition)
 {
 	if(Game::chessMarkPosition.x == 0) //hit leftwall
 		return Game::chessMarkPosition;
@@ -493,10 +493,13 @@ Position Game::Left(vector<vector<int>> data)
 		Game::chessMarkPosition.x--;
 		for (int i = Game::chessMarkPosition.x; i >= 0 ; i--)
 		{
-			if(data[i][Game::chessMarkPosition.y] == Game::whoPlay)
+			for(int j = 0 ; j < objPosition.size() ; j++)
 			{
-				Game::chessMarkPosition.x = i;
-				return Game::chessMarkPosition;
+				if(objPosition[j].x == i && objPosition[j].y == chessMarkPosition.y)
+				{
+					Game::chessMarkPosition.x = i;
+					return Game::chessMarkPosition;
+				}
 			}
 		}
 		if((Game::chessMarkPosition.y - 1) < 0)
@@ -507,11 +510,14 @@ Position Game::Left(vector<vector<int>> data)
 			{
 				for(int j = 0 ; j < BOARD_WIDTH ; j++)
 				{
-					if(data[i][j] == Game::whoPlay)
+					for(int k = 0 ; k < objPosition.size() ; k++)
 					{
-						Game::chessMarkPosition.x = i;
-						Game::chessMarkPosition.y = j;
-						return Game::chessMarkPosition;
+						if(objPosition[k].x == j && objPosition[k].y == i)
+						{
+							Game::chessMarkPosition.x = j;
+							Game::chessMarkPosition.y = i;
+							return Game::chessMarkPosition;
+						}
 					}
 				}
 			}
@@ -520,7 +526,7 @@ Position Game::Left(vector<vector<int>> data)
 	}
 }
 
-Position Game::Right(vector<vector<int>> data)
+Position Game::Right(vector<Position> objPosition)
 {
 	if(Game::chessMarkPosition.x == BOARD_WIDTH - 1) //hit rightwall
 		return Game::chessMarkPosition;
@@ -529,10 +535,13 @@ Position Game::Right(vector<vector<int>> data)
 		Game::chessMarkPosition.x++;
 		for (int i = Game::chessMarkPosition.x; i < BOARD_WIDTH ; i++)
 		{
-			if(data[i][Game::chessMarkPosition.y] == Game::whoPlay)
+			for(int j = 0 ; j < objPosition.size() ; j++)
 			{
-				Game::chessMarkPosition.x = i;
-				return Game::chessMarkPosition;
+				if(objPosition[j].x == i && objPosition[j].y == chessMarkPosition.y)
+				{
+					Game::chessMarkPosition.x = i;
+					return Game::chessMarkPosition;
+				}
 			}
 		}
 		if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
@@ -543,11 +552,14 @@ Position Game::Right(vector<vector<int>> data)
 			{
 				for(int j = BOARD_WIDTH- 1 ; j >= 0 ; j--)
 				{
-					if(data[i][j] == Game::whoPlay)
+					for(int k = 0 ; k < objPosition.size() ; k++)
 					{
-						Game::chessMarkPosition.x = i;
-						Game::chessMarkPosition.y = j;
-						return Game::chessMarkPosition;
+						if(objPosition[k].x == j && objPosition[k].y == i)
+						{
+							Game::chessMarkPosition.x = j;
+							Game::chessMarkPosition.y = i;
+							return Game::chessMarkPosition;
+						}
 					}
 				}
 			}
