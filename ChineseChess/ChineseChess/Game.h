@@ -45,8 +45,9 @@ public:
 	Position Left(vector<Position> objPosition);
 	Position Right(vector<Position> objPosition);
 	
-	void selectChess(int& enterCount);				//type enter
-	//void move(Position);
+	void selectChess();				//type enter
+	void move(Position lastPosition, Position newPosition);
+	void resetMarkPosition();
 	//void showOption();
 
 	vector<Position> getAllRedPosition();
