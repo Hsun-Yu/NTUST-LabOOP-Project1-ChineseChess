@@ -233,8 +233,7 @@ void Game::display()
 
 	// Move cursor to below
 	setTextStyle(WHITE, BLACK);
-	setCursorXY(0, 26);
-	system("pause");
+	setCursorBoardXY(Position(0, 0));
 }
 
 /*
