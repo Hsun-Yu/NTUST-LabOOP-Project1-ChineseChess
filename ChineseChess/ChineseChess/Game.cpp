@@ -139,6 +139,11 @@ void Game::outputCount(string str, int count)
 	}
 }
 
+/*
+intent: display
+pre: void
+post: void
+*/
 void Game::display()
 {
 	system("cls");
@@ -311,6 +316,13 @@ void Game::setTextStyle(int color, int backgroundColor)
 	SetConsoleTextAttribute(Game::outputHandle, color | (backgroundColor * 16));
 }
 
+/*
+intent: Change text style
+pre:
+	int x
+	int y
+post: void.
+*/
 void Game::setCursorXY(int x, int y)
 {
 	Game::cursorXY.X = x;
@@ -318,15 +330,21 @@ void Game::setCursorXY(int x, int y)
 	SetConsoleCursorPosition(Game::outputHandle, Game::cursorXY);
 }
 
+/*
+intent: Change text style
+pre:
+	Position	----position on board
+post: void.
+*/
 void Game::setCursorBoardXY(Position pos)
 {
 	Game::setCursorXY(24 + pos.x * 4, 2 + pos.y * 2);
 }
 
-void Game::moveCursor(int x, int y)
-{
-	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
-}
+//void Game::moveCursor(int x, int y)
+//{
+//	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
+//}
 
 /*
 intent: save game to file
@@ -348,10 +366,13 @@ void Game::saveGame(string filename)
 	file << Game::whoPlay;
 }
 
+/*
+intent: Change text style
+pre: null
+post: void.
+*/
 void Game::inGame()
 {
-
-
 	int enterCount = 0;
 
 	while (1)
@@ -432,27 +453,6 @@ Position Game::Up(vector<Position> objPosition)
 			}
 		}
 		return p;
-		//if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
-		//	return Game::chessMarkPosition;
-		//else
-		//{
-		//	for(int i = Game::chessMarkPosition.x + 1 ; i < BOARD_WIDTH ; i++)
-		//	{
-		//		for(int j = 0 ; j < BOARD_HEIGHT ; j++)
-		//		{
-		//			for(int k = 0 ; k < objPosition.size() ; k++)
-		//			{
-		//				if(objPosition[k].x == i && objPosition[k].y == j)
-		//				{
-		//					Game::chessMarkPosition.x = i;
-		//					Game::chessMarkPosition.y = j;
-		//					return Game::chessMarkPosition;
-		//				}
-		//			}
-		//		}
-		//	}
-		//	return Game::chessMarkPosition;	//if nothing can find		
-		//}
 	}
 }
 
@@ -475,27 +475,6 @@ Position Game::Down(vector<Position> objPosition)
 			}
 		}
 		return p;
-		//if((Game::chessMarkPosition.x + 1) >= BOARD_WIDTH)
-		//	return Game::chessMarkPosition;
-		//else
-		//{
-		//	for(int i = Game::chessMarkPosition.x + 1 ; i < BOARD_WIDTH ; i++)
-		//	{
-		//		for(int j = BOARD_HEIGHT - 1 ; j >= 0 ; j--)
-		//		{
-		//			for(int k = 0 ; k < objPosition.size() ; k++)
-		//			{
-		//				if(objPosition[k].x == i && objPosition[k].y == j)
-		//				{
-		//					Game::chessMarkPosition.x = i;
-		//					Game::chessMarkPosition.y = j;
-		//					return Game::chessMarkPosition;
-		//				}
-		//			}
-		//		}
-		//	}
-		//	return Game::chessMarkPosition;	//if nothing can find
-		//}
 	}
 }
 
@@ -569,7 +548,22 @@ void Game::selectChess(int& enterCount)
 	else //push_enter_once
 	{
 		Game::lastPosition = Game::chessMarkPosition;
+		vector<Position> eat = Game::board.whereCanEat(Game::chessMarkPosition);
+		vector<Position> go = Game::board.whereCanGo(Game::chessMarkPosition);
+
+		vector<Position> mix;
 		//TODO: whereCanEat(),whereCanGo() 
+		for (int i = 0; i < go.size(); i++)
+		{
+			markOnScreen(go[i], BLUE);
+			mix.push_back(go[i]);
+		}
+
+		for (int i = 0; i < eat.size(); i++)
+		{
+			markOnScreen(eat[i], GREEN);
+			mix.push_back(eat[i]);
+		}
 	}
 }
 
