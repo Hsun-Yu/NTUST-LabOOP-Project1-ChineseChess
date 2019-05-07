@@ -130,6 +130,7 @@ post: void
 void Game::display()
 {
 	system("cls");
+	Game::setTextStyle(WHITE, BLACK);
 	ifstream inputS("Chessboard\\board_template.txt");
 	string str;
 	vector<string> boardRows;
@@ -230,6 +231,8 @@ void Game::markOnScreen(Position pos, int backgroundColor)
 	setTextStyle(color, backgroundColor);
 	setCursorBoardXY(pos);
 	cout << show;
+
+	setTextStyle(WHITE, BLACK);
 }
 
 /*
@@ -252,6 +255,7 @@ void Game::unmarkOnScreen(Position pos)
 	}
 
 	Game::markOnScreen(pos, backgroundColor);
+
 }
 
 /*
@@ -290,11 +294,6 @@ void Game::setCursorBoardXY(Position pos)
 {
 	Game::setCursorXY(24 + pos.x * 4, 2 + pos.y * 2);
 }
-
-//void Game::moveCursor(int x, int y)
-//{
-//	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
-//}
 
 /*
 intent: save game to file
@@ -535,6 +534,8 @@ void Game::selectChess()
 		else if (c == 8) //Backspace
 		{
 			//back to inGame
+			Game::chessMarkPosition = Game::lastPosition;
+			Game::display();
 			return;
 		}
 		else if (c == 27) //esc
@@ -582,6 +583,8 @@ void Game::move(Position lastPosition, Position newPosition)
 
 	Game::whoPlay = !Game::whoPlay;
 	Game::resetMarkPosition();
+
+	Game::setTextStyle(WHITE, BLACK);
 }
 
 /*
