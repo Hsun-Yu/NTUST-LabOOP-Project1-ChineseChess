@@ -100,6 +100,16 @@ void Game::lastGame()
 }
 
 /*
+	intent: click ESC to call game menu.
+	pre: void.
+	post: void.
+*/
+void Game::menu()
+{
+
+}
+
+/*
 intent: Print a string serveral times.
 pre: str, times
 post: void
@@ -122,7 +132,8 @@ void Game::display()
 	system("cls");
 	ifstream inputS("Chessboard\\board_template.txt");
 	string str;
-	
+	vector<string> boardRows;
+
 	while (getline(inputS, str))
 	{
 		cout << str << endl;
@@ -130,73 +141,39 @@ void Game::display()
 
 	inputS.close();
 
-	// Board start in (29, 2) (黑車)
+	// Board start in (24, 2) (黑車)
+	boardRows = {
+		"１　２　３　４　５　６　７　８　９",
+		"－－－－－－－－－－－－－－－－－",
+		"｜　｜　｜　｜＼｜／｜　｜　｜　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　｜　｜　｜／｜＼｜　｜　｜　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　｜　｜　｜　｜　｜　｜　｜　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　｜　｜　｜　｜　｜　｜　｜　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　　　楚河　　　　　漢界　　　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　｜　｜　｜　｜　｜　｜　｜　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　｜　｜　｜　｜　｜　｜　｜　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　｜　｜　｜＼｜／｜　｜　｜　｜",
+		"｜－＋－＋－＋－＋－＋－＋－＋－｜",
+		"｜　｜　｜　｜／｜＼｜　｜　｜　｜",
+		"－－－－－－－－－－－－－－－－－",
+		"九　八　七　六　五　四　三　二　一"
+	};
 
 	setTextStyle(PURPLE, WHITE);
-	setCursorXY(24, 1);
-	cout << "１　２　３　４　５　６　７　８　９";
-
-	setTextStyle(BLACK, WHITE);
-	setCursorXY(24, 2);
-	cout << "－－－－－－－－－－－－－－－－－";
-	
-	setCursorXY(24, 3);
-	cout << "｜　｜　｜　｜＼｜／｜　｜　｜　｜";
-
-	setCursorXY(24, 4);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 5);
-	cout << "｜　｜　｜　｜／｜＼｜　｜　｜　｜";
-
-	setCursorXY(24, 6);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 7);
-	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
-
-	setCursorXY(24, 8);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 9);
-	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
-
-	setCursorXY(24, 10);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 11);
-	cout << "｜　　　楚河　　　　　漢界　　　｜";
-
-	setCursorXY(24, 12);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 13);
-	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
-
-	setCursorXY(24, 14);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 15);
-	cout << "｜　｜　｜　｜　｜　｜　｜　｜　｜";
-
-	setCursorXY(24, 16);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 17);
-	cout << "｜　｜　｜　｜＼｜／｜　｜　｜　｜";
-
-	setCursorXY(24, 18);
-	cout << "｜－＋－＋－＋－＋－＋－＋－＋－｜";
-
-	setCursorXY(24, 19);
-	cout << "｜　｜　｜　｜／｜＼｜　｜　｜　｜";
-
-	setCursorXY(24, 20);
-	cout << "－－－－－－－－－－－－－－－－－";
-
-	setTextStyle(PURPLE, WHITE);
-	setCursorXY(24, 21);
-	cout << "九　八　七　六　五　四　三　二　一";
+	for (int i = 0; i <= 20; i++)
+	{
+		if (i == 1) setTextStyle(BLACK, WHITE);
+		if (i == 20) setTextStyle(PURPLE, WHITE);
+		Game::setCursorXY(24, i + 1);
+		cout << boardRows[i];
+	}
 
 	for (int i = 0; i < BOARD_HEIGHT; i++)
 	{

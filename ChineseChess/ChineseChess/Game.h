@@ -40,6 +40,7 @@ public:
 	void saveGame(string filename);
 
 	void inGame(); //use while loop to scan the keyboard code
+	void menu(); 
 	Position Up(vector<Position> objPosition);
 	Position Down(vector<Position> objPosition);
 	Position Left(vector<Position> objPosition);
