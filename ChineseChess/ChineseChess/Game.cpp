@@ -233,8 +233,7 @@ void Game::display()
 
 	// Move cursor to below
 	setTextStyle(WHITE, BLACK);
-	setCursorXY(0, 26);
-	system("pause");
+	setCursorBoardXY(Position(0, 0));
 }
 
 /*
@@ -278,6 +277,12 @@ void Game::markOnScreen(Position pos, int backgroundColor)
 	cout << show;
 }
 
+/*
+intent: Cancel selecting the chess.
+pre:
+	pos: position that you want to unmark.
+post: void.
+*/
 void Game::unmarkOnScreen(Position pos)
 {
 	int backgroundColor, typeID = Game::board[pos.y][pos.x].typeID;
@@ -558,13 +563,13 @@ void Game::selectChess(int& enterCount)
 	enterCount++;
 	if (enterCount == 2) //push_enter_twice
 	{
-		///move()   TODO
+		//TODO: move()   
 		enterCount = 0;
 	}
 	else //push_enter_once
 	{
 		Game::lastPosition = Game::chessMarkPosition;
-		//whereCanEat(),whereCanGo() TODO
+		//TODO: whereCanEat(),whereCanGo() 
 	}
 }
 
