@@ -373,6 +373,20 @@ void Game::inGame()
 			else
 				continue;
 		}
+		else if (c == 27) //esc
+  		{
+      		//TODO : ??
+  		}
+  		else if (c == 44) //<
+  		{
+      		//TODO : ??
+      		cout << "<" <<endl;
+  		}
+  		else if (c == 46) //>
+  		{
+      		//TODO : ??
+      		cout << ">" <<endl;
+  		}
 		else
 		{
 			vector<Position> allRedPosition;
