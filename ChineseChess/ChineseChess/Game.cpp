@@ -23,6 +23,8 @@ Post:null
 */
 void Game::initialize()
 {
+	system("chcp 65001");
+
 	cout << "1. New Game" << endl;
 	cout << "2. Last Game" << endl;
 	cout << "Input number:" << endl;
@@ -394,6 +396,20 @@ void Game::inGame()
 			else
 				continue;
 		}
+		else if (c == 27) //esc
+  		{
+      		//TODO : ??
+  		}
+  		else if (c == 44) //<
+  		{
+      		//TODO : ??
+      		cout << "<" <<endl;
+  		}
+  		else if (c == 46) //>
+  		{
+      		//TODO : ??
+      		cout << ">" <<endl;
+  		}
 		else
 		{
 			vector<Position> allRedPosition;
