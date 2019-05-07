@@ -39,35 +39,7 @@ void Game::initialize()
 	
 	//int x = getchar();
 
-	if (Game::whoPlay)
-	{
-		//red
-
-		for (int i = 7; i < BOARD_HEIGHT; i++)
-		{
-			for (int j = 3; j < 6; j++)
-			{
-				if (Game::board[i][j].typeID == 8)
-				{
-					Game::chessMarkPosition = Position(j, i);
-				}
-			}
-		}
-	}
-	else
-	{
-		//black
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 3; j < 6; j++)
-			{
-				if (Game::board[i][j].typeID == 1)
-				{
-					Game::chessMarkPosition = Position(j, i);
-				}
-			}
-		}
-	}
+	Game::resetMarkPosition();
 }
 
 /*
@@ -84,7 +56,6 @@ bool Game::getInitialType()
 
 	//TODO: For test !!!!!!!
 	//number = 1;
-	
 	switch (number)
 	{
 	case 1:
@@ -194,6 +165,7 @@ post: void
 void Game::display()
 {
 	system("cls");
+	Game::setTextStyle(WHITE, BLACK);
 	ifstream inputS("Chessboard\\board_template.txt");
 	string str;
 	vector<string> boardRows;
@@ -294,6 +266,8 @@ void Game::markOnScreen(Position pos, int backgroundColor)
 	setTextStyle(color, backgroundColor);
 	setCursorBoardXY(pos);
 	cout << show;
+
+	setTextStyle(WHITE, BLACK);
 }
 
 /*
@@ -316,6 +290,7 @@ void Game::unmarkOnScreen(Position pos)
 	}
 
 	Game::markOnScreen(pos, backgroundColor);
+
 }
 
 /*
@@ -355,11 +330,6 @@ void Game::setCursorBoardXY(Position pos)
 	Game::setCursorXY(24 + pos.x * 4, 2 + pos.y * 2);
 }
 
-//void Game::moveCursor(int x, int y)
-//{
-//	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
-//}
-
 /*
 intent: save game to file
 pre: 
@@ -380,6 +350,12 @@ void Game::saveGame(string filename)
 	file << Game::whoPlay;
 }
 
+void Game::saveBoard()
+{
+	Game::boardHistory.push_back(Game::board);
+	Game::boardHistoryIndex = Game::boardHistory.size() - 1;
+}
+
 /*
 intent: Change text style
 pre: null
@@ -387,48 +363,49 @@ post: void.
 */
 void Game::inGame()
 {
-	int enterCount = 0;
+	saveBoard();
 
 	while (1)
 	{
 		Game::setCursorBoardXY(Game::chessMarkPosition);
+		vector<Position> allRedPosition;
+		allRedPosition = Game::getAllRedPosition();
+		vector<Position> allBlackPosition;
+		allBlackPosition = Game::getAllBlackPosition();
+		vector<Position> objPosition;
+
 		char c = 0;
 		c = _getch();
 		if (c == 13) //Enter
 		{
-			selectChess(enterCount);
-		}
-		else if (c == 8) //Backspace
-		{
-			if(enterCount == 1)
-			{
-				Game::chessMarkPosition = Game::lastPosition;
-				enterCount = 0;
-			}
-			else
-				continue;
+			selectChess();
 		}
 		else if (c == 27) //esc
   		{
-      		//TODO : ??
-  		}
+			//TODO (Even):menu
+		}
   		else if (c == 44) //<
   		{
-      		//TODO : ??
-      		cout << "<" <<endl;
+			if (Game::boardHistoryIndex - 1 >= 0)
+			{
+				Game::board = Game::boardHistory[--Game::boardHistoryIndex];
+				Game::whoPlay = !Game::whoPlay;
+				Game::resetMarkPosition();
+				Game::display();
+			}
   		}
   		else if (c == 46) //>
   		{
-      		//TODO : ??
-      		cout << ">" <<endl;
+			if (Game::boardHistoryIndex < Game::boardHistory.size())
+			{
+				Game::board = Game::boardHistory[++Game::boardHistoryIndex];
+				Game::whoPlay = !Game::whoPlay;
+				Game::resetMarkPosition();
+				Game::display();
+			}
   		}
 		else
 		{
-			vector<Position> allRedPosition;
-			allRedPosition = Game::getAllRedPosition();
-			vector<Position> allBlackPosition;
-			allBlackPosition = Game::getAllBlackPosition();
-			vector<Position> objPosition;
 
 			if (whoPlay)
 				objPosition = allRedPosition;
@@ -565,32 +542,138 @@ Position Game::Right(vector<Position> objPosition)
 	return p;
 }
 
-void Game::selectChess(int& enterCount)
+/*
+intent:	to select chess
+pre: null
+post: void
+*/
+void Game::selectChess()
 {
-	enterCount++;
-	if (enterCount == 2) //push_enter_twice
+	Game::lastPosition = Game::chessMarkPosition;
+	vector<Position> eat = Game::board.whereCanEat(Game::chessMarkPosition);
+	vector<Position> go = Game::board.whereCanGo(Game::chessMarkPosition);
+
+	vector<Position> mix;//eat and go
+	for (int i = 0; i < go.size(); i++)
 	{
-		//TODO: move()   
-		enterCount = 0;
+		markOnScreen(go[i], BLUE);
+		mix.push_back(go[i]);
 	}
-	else //push_enter_once
+
+	for (int i = 0; i < eat.size(); i++)
 	{
-		Game::lastPosition = Game::chessMarkPosition;
-		vector<Position> eat = Game::board.whereCanEat(Game::chessMarkPosition);
-		vector<Position> go = Game::board.whereCanGo(Game::chessMarkPosition);
+		markOnScreen(eat[i], GREEN);
+		mix.push_back(eat[i]);
+	}
 
-		vector<Position> mix;
-		//TODO: whereCanEat(),whereCanGo() 
-		for (int i = 0; i < go.size(); i++)
+	if (mix.size() != 0)
+		Game::chessMarkPosition = mix[0];
+	else
+		return;
+	
+	Game::setCursorBoardXY(Game::chessMarkPosition);
+
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
 		{
-			markOnScreen(go[i], BLUE);
-			mix.push_back(go[i]);
+			Game::move(Game::lastPosition, Game::chessMarkPosition);
+			Game::display();
+			return;
 		}
-
-		for (int i = 0; i < eat.size(); i++)
+		else if (c == 8) //Backspace
 		{
-			markOnScreen(eat[i], GREEN);
-			mix.push_back(eat[i]);
+			//back to inGame
+			Game::chessMarkPosition = Game::lastPosition;
+			Game::display();
+			return;
+		}
+		else if (c == 27) //esc
+		{
+			//TODO (Even):menu
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72:
+				Game::chessMarkPosition = Up(mix); //Up
+				Game::setCursorBoardXY(Game::chessMarkPosition);
+				break;
+			case 80:
+				Game::chessMarkPosition = Down(mix); //Down
+				Game::setCursorBoardXY(Game::chessMarkPosition);
+				break;
+			case 75:
+				Game::chessMarkPosition = Left(mix); //Left
+				Game::setCursorBoardXY(Game::chessMarkPosition);
+				break;
+			case 77:
+				Game::chessMarkPosition = Right(mix); //Right
+				Game::setCursorBoardXY(Game::chessMarkPosition);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+/*
+intent: move chess
+pre:	
+	Position	----lastPosition
+	Position	----newPosition
+post:	void
+*/
+void Game::move(Position lastPosition, Position newPosition)
+{
+	Game::board[newPosition.y][newPosition.x] = Game::board[lastPosition.y][lastPosition.x];
+	Game::board[lastPosition.y][lastPosition.x] = Chess(0);
+
+	Game::whoPlay = !Game::whoPlay;
+	Game::resetMarkPosition();
+
+	Game::saveBoard();
+
+	Game::setTextStyle(WHITE, BLACK);
+}
+
+/*
+intent: when change player we need to reset MarkPosition
+pre: null
+post: void
+*/
+void Game::resetMarkPosition()
+{
+	if (Game::whoPlay)
+	{
+		//red
+
+		for (int i = 7; i < BOARD_HEIGHT; i++)
+		{
+			for (int j = 3; j < 6; j++)
+			{
+				if (Game::board[i][j].typeID == 8)
+				{
+					Game::chessMarkPosition = Position(j, i);
+				}
+			}
+		}
+	}
+	else
+	{
+		//black
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 3; j < 6; j++)
+			{
+				if (Game::board[i][j].typeID == 1)
+				{
+					Game::chessMarkPosition = Position(j, i);
+				}
+			}
 		}
 	}
 }
@@ -628,7 +711,7 @@ vector<Position> Game::getAllBlackPosition()
 	{
 		for (int j = 0; j < BOARD_WIDTH; j++)
 		{
-			if (Game::board[i][j].typeID < 8)
+			if (Game::board[i][j].typeID < 8 && Game::board[i][j].typeID > 0)
 			{
 				res.push_back(Position(j, i));
 			}

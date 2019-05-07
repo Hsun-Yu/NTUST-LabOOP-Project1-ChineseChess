@@ -38,6 +38,7 @@ public:
 	void unmarkOnScreen(Position);
 
 	void saveGame(string filename);
+	void saveBoard();
 
 	void inGame(); //use while loop to scan the keyboard code
 	void menu(); 
@@ -46,8 +47,9 @@ public:
 	Position Left(vector<Position> objPosition);
 	Position Right(vector<Position> objPosition);
 	
-	void selectChess(int& enterCount);				//type enter
-	//void move(Position);
+	void selectChess();				//type enter
+	void move(Position lastPosition, Position newPosition);
+	void resetMarkPosition();
 	//void showOption();
 
 	vector<Position> getAllRedPosition();
@@ -62,5 +64,10 @@ private:
 	Position chessMarkPosition;
 	Position lastPosition;
 	//int selectType;
+
+	int boardHistoryIndex;
+	vector<Board> boardHistory;
+	//TODO (Even): save situation
+	vector<string> situation;
 };
 

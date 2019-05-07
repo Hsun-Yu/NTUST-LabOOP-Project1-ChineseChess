@@ -201,7 +201,7 @@ vector<Position> Board::goAndEatShare(Position chessPosition)
 		for (int i = chessPosition.y + 1; i <= 9; i++)
 		{
 			result.push_back(Position(chessPosition.x, i));
-			if (Board::board[i][chessPosition.x].typeID == 0)
+			if (Board::board[i][chessPosition.x].typeID != 0)
 				break;
 		}
 		break;
