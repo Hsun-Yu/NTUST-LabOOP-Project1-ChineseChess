@@ -315,6 +315,12 @@ void Game::saveGame(string filename)
 	file << Game::whoPlay;
 }
 
+void Game::saveBoard()
+{
+	Game::boardHistory.push_back(Game::board);
+	Game::boardHistoryIndex = Game::boardHistory.size() - 1;
+}
+
 /*
 intent: Change text style
 pre: null
@@ -322,7 +328,7 @@ post: void.
 */
 void Game::inGame()
 {
-	int enterCount = 0;
+	saveBoard();
 
 	while (1)
 	{
@@ -345,13 +351,23 @@ void Game::inGame()
 		}
   		else if (c == 44) //<
   		{
-      		//TODO : ??
-      		cout << "<" <<endl;
+			if (Game::boardHistoryIndex - 1 >= 0)
+			{
+				Game::board = Game::boardHistory[--Game::boardHistoryIndex];
+				Game::whoPlay = !Game::whoPlay;
+				Game::resetMarkPosition();
+				Game::display();
+			}
   		}
   		else if (c == 46) //>
   		{
-      		//TODO : ??
-      		cout << ">" <<endl;
+			if (Game::boardHistoryIndex < Game::boardHistory.size())
+			{
+				Game::board = Game::boardHistory[++Game::boardHistoryIndex];
+				Game::whoPlay = !Game::whoPlay;
+				Game::resetMarkPosition();
+				Game::display();
+			}
   		}
 		else
 		{
@@ -583,6 +599,8 @@ void Game::move(Position lastPosition, Position newPosition)
 
 	Game::whoPlay = !Game::whoPlay;
 	Game::resetMarkPosition();
+
+	Game::saveBoard();
 
 	Game::setTextStyle(WHITE, BLACK);
 }
