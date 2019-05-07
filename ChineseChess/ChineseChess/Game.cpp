@@ -24,6 +24,7 @@ Post:null
 void Game::initialize()
 {
 	system("chcp 65001");
+	system("cls");
 
 	cout << "1. New Game" << endl;
 	cout << "2. Last Game" << endl;
@@ -129,13 +130,47 @@ void Game::lastGame()
 }
 
 /*
-	intent: click ESC to call game menu.
-	pre: void.
-	post: void.
+intent: click ESC to call game menu.
+pre: void.
+post: void.
 */
 void Game::menu()
 {
+	system("cls");
+	int num;
 
+	cout << "1.繼續遊戲" << endl;
+	cout << "2.重新開始" << endl;
+	cout << "3.回主選單" << endl;
+	cout << "4.離開遊戲" << endl;
+	cout << "Input number:" << endl;
+
+	while (1)
+	{
+		cin >> num;
+		if (num == 1)
+		{
+			Game::display();
+		}
+		else if (num == 2)
+		{
+			Game::initialize();
+		}
+		else if (num == 3)
+		{
+			Game::saveGame("LastGame.txt");
+		}
+		else if (num == 4)
+		{
+			system("exit");
+		}
+		else
+		{
+			cout << "Please input the correct number: " << endl;
+			continue;
+		}
+		break;
+	}
 }
 
 /*
