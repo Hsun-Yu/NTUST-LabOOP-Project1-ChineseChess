@@ -23,6 +23,8 @@ Post:null
 */
 void Game::initialize()
 {
+	system("chcp 65001");
+
 	cout << "1. New Game" << endl;
 	cout << "2. Last Game" << endl;
 	cout << "Input number:" << endl;

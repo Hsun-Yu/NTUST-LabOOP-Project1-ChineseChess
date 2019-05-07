@@ -1,7 +1,8 @@
 #include "Game.h"
 int main()
 {
-	system("chcp 65001");
-	Game();
+	Game game = Game();
+	game.setTextStyle(WHITE, BLUE);
+
 	return 0;
 }
