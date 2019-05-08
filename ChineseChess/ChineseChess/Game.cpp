@@ -684,6 +684,40 @@ void Game::resetMarkPosition()
 	}
 }
 
+bool Game::checkRedBossIsLife()
+{
+	bool flag = 0;
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if (Game::board[i][j].typeID == 7)
+			{
+				flag = 1;
+			}
+		}
+	}
+	return flag;
+}
+
+bool Game::checkBlackBossIsLife()
+{
+	bool flag = 0;
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if (Game::board[i][j].typeID == 1)
+			{
+				flag = 1;
+			}
+		}
+	}
+	return flag;
+}
+
+
+
 /*
 intent: get all red chesses position
 pre:	null
