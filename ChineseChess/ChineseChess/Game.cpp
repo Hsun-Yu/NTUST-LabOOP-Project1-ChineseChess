@@ -401,7 +401,7 @@ void Game::inGame()
   		}
   		else if (c == 46) //>
   		{
-			if (Game::boardHistoryIndex < Game::boardHistory.size())
+			if (Game::boardHistoryIndex + 1 < Game::boardHistory.size())
 			{
 				Game::board = Game::boardHistory[++Game::boardHistoryIndex];
 				Game::whoPlay = !Game::whoPlay;
