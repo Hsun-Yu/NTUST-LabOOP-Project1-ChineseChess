@@ -20,6 +20,7 @@ post:
 bool Board::readBoardFile(string filename)
 {
 	ifstream file(filename);
+	Board::board.clear();
 	for (int i = 0; i < BOARD_HEIGHT; i++)
 	{
 		vector<Chess> v;

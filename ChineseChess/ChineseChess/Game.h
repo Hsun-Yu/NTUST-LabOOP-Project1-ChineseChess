@@ -41,7 +41,7 @@ public:
 	void saveBoard();
 
 	void inGame(); //use while loop to scan the keyboard code
-	void menu(); 
+	int menu(); 
 	Position Up(vector<Position> objPosition);
 	Position Down(vector<Position> objPosition);
 	Position Left(vector<Position> objPosition);

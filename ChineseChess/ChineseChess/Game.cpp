@@ -54,8 +54,6 @@ bool Game::getInitialType()
 	
 	cin >> number;
 
-	//TODO: For test !!!!!!!
-	//number = 1;
 	switch (number)
 	{
 	case 1:
@@ -105,7 +103,7 @@ intent: click ESC to call game menu.
 pre: void.
 post: void.
 */
-void Game::menu()
+int Game::menu()
 {
 	system("cls");
 	int num;
@@ -126,14 +124,18 @@ void Game::menu()
 		else if (num == 2)
 		{
 			Game::initialize();
+			Game::display();
 		}
 		else if (num == 3)
 		{
-			Game::saveGame("LastGame.txt");
+			Game::saveGame("Chessboard\\LastGame.txt");
+			Game::initialize();
+			Game::display();
 		}
 		else if (num == 4)
 		{
-			system("exit");
+			system("cls");
+			return 1;
 		}
 		else
 		{
@@ -142,6 +144,8 @@ void Game::menu()
 		}
 		break;
 	}
+
+	return 0;
 }
 
 /*
@@ -382,7 +386,8 @@ void Game::inGame()
 		}
 		else if (c == 27) //esc
   		{
-			//TODO (Even):menu
+			//TODO (Evan):menu
+			if (Game::menu()) return;
 		}
   		else if (c == 44) //<
   		{
@@ -591,7 +596,8 @@ void Game::selectChess()
 		}
 		else if (c == 27) //esc
 		{
-			//TODO (Even):menu
+			//TODO (Evan):menu
+			Game::menu(); return;
 		}
 		else
 		{
