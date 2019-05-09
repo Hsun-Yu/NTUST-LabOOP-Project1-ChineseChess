@@ -4,6 +4,10 @@ using namespace std;
 
 HANDLE Game::outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD Game::cursorXY;
+string Game::road[2][9] = {
+		{"１" ,"２" ,"３" ,"４" ,"５" ,"６" ,"７" ,"８" ,"９"},
+		{"九" , "八" , "七" , "六" , "五" , "四" , "三" , "二" , "一"}
+};
 
 Game::Game()
 {
@@ -149,6 +153,50 @@ int Game::menu()
 }
 
 /*
+intent: Logging game.
+pre: 
+	che: Moveing chess.
+	from: From position.
+	to: To position.
+pre: void.
+*/
+void Game::gameLog(Chess che, Position from, Position to)
+{
+	string str;
+	
+	str = che.colour ? "紅 : " : "黑 : ";
+	str += che.show;
+	str += Game::road[che.colour][from.x];
+	if (to.y == from.y)
+	{
+		str += "平";
+		str += Game::road[che.colour][to.x];
+	}
+	else 
+	{
+		if (to.y > from.y)
+		{
+			str += "進";
+		}
+		else
+		{
+			str += "進";
+		}
+
+		if (to.x == from.x)
+		{
+			str += Game::road[che.colour][abs(to.y - from.y)];
+		}
+		else
+		{
+			str += Game::road[che.colour][to.x];
+		}
+	}
+
+	Game::situation.push_back(str);
+}
+
+/*
 intent: Print a string serveral times.
 pre: str, times
 post: void
@@ -169,11 +217,17 @@ post: void
 void Game::display()
 {
 	system("cls");
-	Game::setTextStyle(WHITE, BLACK);
+
+	// TODO: For testing!
+	Game::gameLog(board[0][0], Position(0, 0), Position(0, 6));
+	Game::gameLog(board[9][1], Position(1, 9), Position(1, 7));
+	Game::gameLog(board[3][2], Position(2, 2), Position(2, 1));
+
 	ifstream inputS("Chessboard\\board_template.txt");
 	string str;
 	vector<string> boardRows;
 
+	Game::setTextStyle(WHITE, BLACK);
 	while (getline(inputS, str))
 	{
 		cout << str << endl;
@@ -206,6 +260,7 @@ void Game::display()
 		"九　八　七　六　五　四　三　二　一"
 	};
 
+	// Output board.
 	setTextStyle(PURPLE, WHITE);
 	for (int i = 0; i <= 20; i++)
 	{
@@ -215,6 +270,7 @@ void Game::display()
 		cout << boardRows[i];
 	}
 
+	// Put chesses to board.
 	for (int i = 0; i < BOARD_HEIGHT; i++)
 	{
 		for (int j = 0; j < BOARD_WIDTH; j++)
@@ -226,7 +282,28 @@ void Game::display()
 		}
 	}
 
-	// Move cursor to below
+	// Output game log.
+	setTextStyle(WHITE, BLACK);
+	for (int i = 0; i < Game::situation.size(); i++)
+	{
+		Game::setCursorXY(4, 3 + i);
+		cout.width(3);
+		cout << i + 1 << " ";
+		if (Game::situation[i].substr(0, 3) == "黑")
+		{
+			setTextStyle(BLACK2, BLACK);
+			cout << "黑";
+		}
+		else
+		{
+			setTextStyle(RED, BLACK);
+			cout << "紅";
+		}
+		setTextStyle(WHITE, BLACK);
+		cout << Game::situation[i].substr(3);
+	}
+
+
 	setTextStyle(WHITE, BLACK);
 	setCursorBoardXY(Position(0, 0));
 }
@@ -386,7 +463,6 @@ void Game::inGame()
 		}
 		else if (c == 27) //esc
   		{
-			//TODO (Evan):menu
 			if (Game::menu()) return;
 		}
   		else if (c == 44) //<
@@ -596,7 +672,6 @@ void Game::selectChess()
 		}
 		else if (c == 27) //esc
 		{
-			//TODO (Evan):menu
 			Game::menu(); return;
 		}
 		else
