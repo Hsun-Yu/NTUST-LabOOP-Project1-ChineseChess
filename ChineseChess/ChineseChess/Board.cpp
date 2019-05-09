@@ -303,10 +303,11 @@ vector<Position> Board::whereCanGo(Position chessPosition)
 {
 	vector<Position> result = Board::goAndEatShare(chessPosition);
 
+	int chessTypeID = Board::board[chessPosition.y][chessPosition.x].typeID;
 	//Delete position if the position has already had chess
 	for (int i = 0; i < result.size(); i++)
 	{
-		if (Board::board[result[i].y][result[i].x].typeID != 0)
+		if (Board::board[result[i].y][result[i].x].typeID != 0 || Board::canNotGo(chessTypeID >= 8))
 		{
 			result.erase(result.begin() + i);
 			i--;
@@ -431,10 +432,10 @@ vector<Position> Board::whereCanEat(Position chessPosition)
 	//Delete position of space and my chesses
 	for (int i = 0; i < result.size(); i++)
 	{
-		if (!(chessTypeID <= 7 && Board::board[result[i].y][result[i].x].typeID >= 8) &&
+		if ((!(chessTypeID <= 7 && Board::board[result[i].y][result[i].x].typeID >= 8) &&
 			!(chessTypeID >= 8 &&
 			Board::board[result[i].y][result[i].x].typeID <= 7 &&
-			Board::board[result[i].y][result[i].x].typeID >= 1))
+			Board::board[result[i].y][result[i].x].typeID >= 1)) || Board::canNotGo(chessTypeID >= 8))
 		{
 			result.erase(result.begin() + i);
 			i--;
@@ -468,9 +469,9 @@ post:	bool	----need to check: true
 bool Board::check(bool whoPlay)
 {
 	vector<Position> checkEat;
-	if (whoPlay)	//red
+	if (!whoPlay)	//black
 		checkEat = Board::getAllRedPosition();
-	else	//black
+	else	//red
 		checkEat = Board::getAllBlackPosition();
 
 	for (int i = 0; i < checkEat.size(); i++)
@@ -484,6 +485,31 @@ bool Board::check(bool whoPlay)
 		}
 	}
 
+	return false;
+}
+
+/*
+intent: if you go you will be lose
+pre:	bool	----whoPlay
+post:	bool	---- if you can go: false	if you cannot go: true
+*/
+bool Board::canNotGo(bool whoPlay)
+{
+	Position bossPosition;
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if ((Board::board[i][j].typeID == 1 && !whoPlay) || 
+				(Board::board[i][j].typeID == 8 && whoPlay))
+			{
+				bossPosition = Position(j, i);
+				i = BOARD_HEIGHT;
+				break;
+			}
+		}
+	}
+	
 	return false;
 }
 

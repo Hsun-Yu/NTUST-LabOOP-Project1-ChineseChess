@@ -663,6 +663,11 @@ void Game::selectChess()
 		{
 			Game::move(Game::lastPosition, Game::chessMarkPosition);
 			Game::display();
+			if (Game::board.check(Game::whoPlay))
+			{
+				//TODO (HsunYu): check CHECK!
+				Game::showCheckmate(Game::whoPlay);
+			}
 			return;
 		}
 		else if (c == 8) //Backspace
@@ -713,11 +718,6 @@ post:	void
 void Game::move(Position lastPosition, Position newPosition)
 {
 	Game::board = Game::board.move(lastPosition, newPosition);
-
-	if (Game::board.check(Game::whoPlay))
-	{		
-		//TODO (HsunYu): check CHECK!
-	}
 
 	Game::whoPlay = !Game::whoPlay;
 	Game::resetMarkPosition();
@@ -811,6 +811,7 @@ void Game::showWhoPlay()
 		setTextStyle(BLACK2, BLACK);
 		cout << "黑色方";
 	}
+	setTextStyle(WHITE, BLACK);
 }
 
 void Game::showNowChess()
@@ -855,20 +856,23 @@ void Game::showNowChess()
 		else if (chessTypeID == 7)
 			cout << "卒";
 	}
+	setTextStyle(WHITE, BLACK);
+
 }
 
 void Game::showCheckmate(bool whoCheckmate)
 {
 	Game::setCursorXY(69, 9);
-	cout.width(4);
+	cout.width(5);
 	if (whoCheckmate)
 	{
 		setTextStyle(RED, BLACK);
-		cout << "紅方將軍";
+		cout << "紅方被將軍";
 	}
 	else
 	{
 		setTextStyle(BLACK2, BLACK);
-		cout << "黑方將軍";
+		cout << "黑方被將軍";
 	}
+	setTextStyle(WHITE, BLACK);
 }

@@ -25,6 +25,7 @@ public:
 	Board move(Position lastPosition, Position newPosition);
 
 	bool check(bool whoPlay);
+	bool canNotGo(bool whoPlay);
 
 	vector<Position> getAllRedPosition();
 	vector<Position> getAllBlackPosition();
