@@ -7,6 +7,7 @@
 #include "Position.h"
 
 #define BLACK 0
+#define BLACK2 FOREGROUND_INTENSITY
 #define WHITE FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY
 #define GRAY FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE
 #define RED FOREGROUND_RED
@@ -42,6 +43,7 @@ public:
 
 	void inGame(); //use while loop to scan the keyboard code
 	int menu(); 
+	void gameLog(Chess, Position, Position); 
 	Position Up(vector<Position> objPosition);
 	Position Down(vector<Position> objPosition);
 	Position Left(vector<Position> objPosition);
@@ -55,6 +57,9 @@ public:
 	bool checkBlackBossIsLife();
 	//void showOption();
 
+
+	void showWhoPlay();
+	void showNowChess();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
@@ -68,7 +73,9 @@ private:
 
 	int boardHistoryIndex;
 	vector<Board> boardHistory;
-	//TODO (Even): save situation
+
 	vector<string> situation;
+
+	static string road[2][9]; //For logging step.
 };
 
