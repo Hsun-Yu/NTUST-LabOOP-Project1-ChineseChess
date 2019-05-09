@@ -163,10 +163,100 @@ pre: void.
 void Game::gameLog(Chess che, Position from, Position to)
 {
 	string str;
-	
+	int sameChess = 0, thisChessOrder = 0;
+
 	str = che.colour ? "紅 : " : "黑 : ";
-	str += che.show;
-	str += Game::road[che.colour][from.x];
+
+
+	// Check how many chess behind it
+	for (int i = 0; i < 10; i++)
+	{
+		if (board[i][from.x].typeID == che.typeID)
+		{
+			if (i == from.y)
+			{
+				thisChessOrder = sameChess;
+			}
+			sameChess++;
+		}
+	}
+
+	if (che.colour) thisChessOrder = sameChess - 1 - thisChessOrder;
+
+	// 士和象不分前後
+	if (sameChess == 1 || che.typeID == 2 || che.typeID == 3 || che.typeID == 9 || che.typeID == 10)
+	{
+		str += che.show;
+		str += Game::road[che.colour][from.x];
+	}
+	else
+	{
+		switch (sameChess)
+		{
+		case 2:
+			str += (thisChessOrder == 0 ? "後" : "前") + che.show;
+			break;
+		case 3:
+			if (thisChessOrder == 2)
+			{
+				str += "前";
+			}
+			else if (thisChessOrder == 1)
+			{
+				str += "中";
+			}
+			else
+			{
+				str += "後";
+			}
+			str += che.show;
+			break;
+		case 4:
+			if (thisChessOrder == 3)
+			{
+				str += "前";
+			}
+			else if (thisChessOrder == 2)
+			{
+				str += "二";
+			}
+			else if (thisChessOrder == 1)
+			{
+				str += "三";
+			}
+			else
+			{
+				str += "後";
+			}
+			str += che.show;
+			break;
+		default:
+			if (thisChessOrder == 4)
+			{
+				str += "前";
+			}
+			else if (thisChessOrder == 3)
+			{
+				str += "二";
+			}
+			else if (thisChessOrder == 2)
+			{
+				str += "三";
+			}
+			else if (thisChessOrder == 1)
+			{
+				str += "四";
+			}
+			else
+			{
+				str += "後";
+			}
+			str += che.show;
+			break;
+		}
+	}
+	
+
 	if (to.y == from.y)
 	{
 		str += "平";
