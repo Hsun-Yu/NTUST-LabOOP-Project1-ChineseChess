@@ -57,8 +57,6 @@ public:
 	bool checkBlackBossIsLife();
 	//void showOption();
 
-	vector<Position> getAllRedPosition();
-	vector<Position> getAllBlackPosition();
 
 	void showWhoPlay();
 	void showNowChess();

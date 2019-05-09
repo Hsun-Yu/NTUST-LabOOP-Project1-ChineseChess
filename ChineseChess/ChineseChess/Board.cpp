@@ -444,3 +444,88 @@ vector<Position> Board::whereCanEat(Position chessPosition)
 	return result;
 }
 
+/*
+intent: move chess
+pre:	
+	Position: last position
+	Position: new position
+post:	Board	----new board
+*/
+Board Board::move(Position lastPosition, Position newPosition)
+{
+	Board b = (*this);
+	b[newPosition.y][newPosition.x] = Board::board[lastPosition.y][lastPosition.x];
+	b[lastPosition.y][lastPosition.x] = Chess(0);
+
+	return b;
+}
+
+/*
+intent: tell player Check!! yuor chess
+pre:	bool	----whoPlay red: true black: false
+post:	bool	----need to check: true
+*/
+bool Board::check(bool whoPlay)
+{
+	vector<Position> checkEat;
+	if (whoPlay)	//red
+		checkEat = Board::getAllRedPosition();
+	else	//black
+		checkEat = Board::getAllBlackPosition();
+
+	for (int i = 0; i < checkEat.size(); i++)
+	{
+		vector<Position> p = Board::whereCanEat(checkEat[i]);
+
+		for (int j = 0; j < p.size(); j++)
+		{
+			if ((Board::board[p[j].y][p[j].x].typeID) % 7 == 1)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+/*
+intent: get all red chesses position
+pre:	null
+post:	vector<Position>	----List of position of red chesses
+*/
+vector<Position> Board::getAllRedPosition()
+{
+	vector<Position> res;
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if (Board::board[i][j].typeID > 7)
+			{
+				res.push_back(Position(j, i));
+			}
+		}
+	}
+	return res;
+}
+
+/*
+intent: get all black chesses position
+pre:	null
+post:	vector<Position>	----List of position of black chesses
+*/
+vector<Position> Board::getAllBlackPosition()
+{
+	vector<Position> res;
+	for (int i = 0; i < BOARD_HEIGHT; i++)
+	{
+		for (int j = 0; j < BOARD_WIDTH; j++)
+		{
+			if (Board::board[i][j].typeID < 8 && Board::board[i][j].typeID > 0)
+			{
+				res.push_back(Position(j, i));
+			}
+		}
+	}
+	return res;
+}
+

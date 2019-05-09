@@ -388,6 +388,10 @@ void Game::setCursorXY(int x, int y)
 	Game::cursorXY.X = x;
 	Game::cursorXY.Y = y;
 	SetConsoleCursorPosition(Game::outputHandle, Game::cursorXY);
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.bVisible = true;
+	lpCursor.dwSize = 10;
+	SetConsoleCursorInfo(Game::outputHandle, &lpCursor);
 }
 
 /*
@@ -441,9 +445,9 @@ void Game::inGame()
 		showWhoPlay();
 		Game::setCursorBoardXY(Game::chessMarkPosition);
 		vector<Position> allRedPosition;
-		allRedPosition = Game::getAllRedPosition();
+		allRedPosition = Game::board.getAllRedPosition();
 		vector<Position> allBlackPosition;
-		allBlackPosition = Game::getAllBlackPosition();
+		allBlackPosition = Game::board.getAllBlackPosition();
 		vector<Position> objPosition;
 
 		char c = 0;
@@ -705,8 +709,12 @@ post:	void
 */
 void Game::move(Position lastPosition, Position newPosition)
 {
-	Game::board[newPosition.y][newPosition.x] = Game::board[lastPosition.y][lastPosition.x];
-	Game::board[lastPosition.y][lastPosition.x] = Chess(0);
+	Game::board = Game::board.move(lastPosition, newPosition);
+
+	if (Game::board.check(Game::whoPlay))
+	{		
+		//TODO (HsunYu): check CHECK!
+	}
 
 	Game::whoPlay = !Game::whoPlay;
 	Game::resetMarkPosition();
@@ -784,50 +792,6 @@ bool Game::checkBlackBossIsLife()
 		}
 	}
 	return flag;
-}
-
-
-
-/*
-intent: get all red chesses position
-pre:	null
-post:	vector<Position>	----List of position of red chesses
-*/
-vector<Position> Game::getAllRedPosition()
-{
-	vector<Position> res;
-	for (int i = 0; i < BOARD_HEIGHT; i++)
-	{
-		for (int j = 0; j < BOARD_WIDTH; j++)
-		{
-			if (Game::board[i][j].typeID > 7)
-			{
-				res.push_back(Position(j, i));
-			}
-		}
-	}
-	return res;
-}
-
-/*
-intent: get all black chesses position
-pre:	null
-post:	vector<Position>	----List of position of black chesses
-*/
-vector<Position> Game::getAllBlackPosition()
-{
-	vector<Position> res;
-	for (int i = 0; i < BOARD_HEIGHT; i++)
-	{
-		for (int j = 0; j < BOARD_WIDTH; j++)
-		{
-			if (Game::board[i][j].typeID < 8 && Game::board[i][j].typeID > 0)
-			{
-				res.push_back(Position(j, i));
-			}
-		}
-	}
-	return res;
 }
 
 void Game::showWhoPlay()
