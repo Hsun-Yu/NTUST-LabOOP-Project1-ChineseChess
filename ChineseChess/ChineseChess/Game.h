@@ -62,6 +62,7 @@ public:
 
 	void showWhoPlay();
 	void showNowChess();
+	void showCheckmate(bool whoCheckmate);
 private:
 	Board board;
 	bool whoPlay;	//red true, black false

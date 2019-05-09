@@ -889,3 +889,19 @@ void Game::showNowChess()
 			cout << "卒";
 	}
 }
+
+void Game::showCheckmate(bool whoCheckmate)
+{
+	Game::setCursorXY(69, 9);
+	cout.width(4);
+	if (whoCheckmate)
+	{
+		setTextStyle(RED, BLACK);
+		cout << "紅方將軍";
+	}
+	else
+	{
+		setTextStyle(BLACK2, BLACK);
+		cout << "黑方將軍";
+	}
+}
