@@ -448,6 +448,7 @@ void Game::inGame()
 
 	while (1)
 	{
+		showWhoPlay();
 		Game::setCursorBoardXY(Game::chessMarkPosition);
 		vector<Position> allRedPosition;
 		allRedPosition = Game::getAllRedPosition();
@@ -459,6 +460,7 @@ void Game::inGame()
 		c = _getch();
 		if (c == 13) //Enter
 		{
+			showNowChess();
 			selectChess();
 		}
 		else if (c == 27) //esc
@@ -489,9 +491,13 @@ void Game::inGame()
 		{
 
 			if (whoPlay)
+			{
 				objPosition = allRedPosition;
+			}
 			else
+			{
 				objPosition = allBlackPosition;
+			}
 			c = _getch();
 			switch (c)
 			{
@@ -833,4 +839,64 @@ vector<Position> Game::getAllBlackPosition()
 		}
 	}
 	return res;
+}
+
+void Game::showWhoPlay()
+{
+	Game::setCursorXY(72,3);
+	cout.width(3);
+	if (whoPlay)
+	{
+		setTextStyle(RED, BLACK);
+		cout << "紅色方";
+	}
+	else
+	{
+		setTextStyle(BLACK2, BLACK);
+		cout << "黑色方";
+	}
+}
+
+void Game::showNowChess()
+{
+	int chessTypeID = board[chessMarkPosition.y][chessMarkPosition.x].typeID;
+
+	Game::setCursorXY(75,6);
+	cout.width(3);
+	if (whoPlay)
+	{
+		setTextStyle(RED, BLACK);
+		if (chessTypeID == 8)
+			cout << "帥";
+		else if (chessTypeID == 9)
+			cout << "仕";
+		else if (chessTypeID == 10)
+			cout << "相";
+		else if (chessTypeID == 11)
+			cout << "車";
+		else if (chessTypeID == 12)
+			cout << "傌";
+		else if (chessTypeID == 13)
+			cout << "炮";
+		else if (chessTypeID == 14)
+			cout << "兵";
+	}
+	else
+	{
+		setTextStyle(BLACK2, BLACK);
+		if (chessTypeID == 1)
+			cout << "將";
+		else if (chessTypeID == 2)
+			cout << "士";
+		else if (chessTypeID == 3)
+			cout << "象";
+		else if (chessTypeID == 4)
+			cout << "車";
+		else if (chessTypeID == 5)
+			cout << "馬";
+		else if (chessTypeID == 6)
+			cout << "包";
+		else if (chessTypeID == 7)
+			cout << "卒";
+	}
 }

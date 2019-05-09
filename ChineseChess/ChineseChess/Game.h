@@ -59,6 +59,9 @@ public:
 
 	vector<Position> getAllRedPosition();
 	vector<Position> getAllBlackPosition();
+
+	void showWhoPlay();
+	void showNowChess();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
