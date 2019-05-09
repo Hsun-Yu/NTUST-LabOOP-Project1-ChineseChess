@@ -649,7 +649,10 @@ void Game::selectChess()
 	if (mix.size() != 0)
 		Game::chessMarkPosition = mix[0];
 	else
+	{
+		Game::display();
 		return;
+	}
 	
 	Game::setCursorBoardXY(Game::chessMarkPosition);
 
