@@ -55,7 +55,7 @@ public:
 
 	bool checkRedBossIsLife();
 	bool checkBlackBossIsLife();
-	//void showOption();
+	bool checkLose(bool whoPlay);
 
 
 	void showWhoPlay();

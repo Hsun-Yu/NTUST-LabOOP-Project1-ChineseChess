@@ -293,6 +293,14 @@ void Game::display()
 		cout << Game::situation[i].substr(3);
 	}
 
+	if (Game::board.check(Game::whoPlay))	//Check is Check
+		Game::showCheckmate(Game::whoPlay);
+
+	if (Game::checkLose(Game::whoPlay))
+	{
+		//TODO (hsunyu):	show lose
+		cout << "你輸了" << endl;
+	}
 
 	setTextStyle(WHITE, BLACK);
 	setCursorBoardXY(Position(0, 0));
@@ -443,6 +451,7 @@ void Game::inGame()
 	while (1)
 	{
 		showWhoPlay();
+
 		Game::setCursorBoardXY(Game::chessMarkPosition);
 		vector<Position> allRedPosition;
 		allRedPosition = Game::board.getAllRedPosition();
@@ -633,6 +642,9 @@ void Game::selectChess()
 	vector<Position> eat = Game::board.whereCanEat(Game::chessMarkPosition);
 	vector<Position> go = Game::board.whereCanGo(Game::chessMarkPosition);
 
+	eat = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, eat);
+	go = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, go);
+
 	vector<Position> mix;//eat and go
 	for (int i = 0; i < go.size(); i++)
 	{
@@ -653,6 +665,7 @@ void Game::selectChess()
 		Game::display();
 		return;
 	}
+
 	
 	Game::setCursorBoardXY(Game::chessMarkPosition);
 
@@ -663,11 +676,6 @@ void Game::selectChess()
 		{
 			Game::move(Game::lastPosition, Game::chessMarkPosition);
 			Game::display();
-			if (Game::board.check(Game::whoPlay))
-			{
-				//TODO (HsunYu): check CHECK!
-				Game::showCheckmate(Game::whoPlay);
-			}
 			return;
 		}
 		else if (c == 8) //Backspace
@@ -717,6 +725,7 @@ post:	void
 */
 void Game::move(Position lastPosition, Position newPosition)
 {
+	Game::gameLog(Game::board[lastPosition.y][lastPosition.x], lastPosition, newPosition);
 	Game::board = Game::board.move(lastPosition, newPosition);
 
 	Game::whoPlay = !Game::whoPlay;
@@ -795,6 +804,37 @@ bool Game::checkBlackBossIsLife()
 		}
 	}
 	return flag;
+}
+
+bool Game::checkLose(bool whoPlay)
+{
+	vector<Position> mix;//eat and go
+	vector<Position> allChessPosition;
+
+	if (whoPlay)		//red
+		allChessPosition = Game::board.getAllRedPosition();
+	else	//black
+		allChessPosition = Game::board.getAllBlackPosition();
+
+	for (int i = 0; i < allChessPosition.size(); i++)
+	{
+		vector<Position> eat = Game::board.whereCanEat(allChessPosition[i]);
+		vector<Position> go = Game::board.whereCanGo(allChessPosition[i]);
+
+		eat = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, eat);
+		go = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, go);
+
+		for (int j = 0; j < eat.size(); j++)
+			mix.push_back(eat[j]);
+
+		for (int j = 0; j < go.size(); j++)
+			mix.push_back(go[j]);
+	}
+
+	if (mix.size() == 0)
+		return true;
+	else
+		return false;
 }
 
 void Game::showWhoPlay()

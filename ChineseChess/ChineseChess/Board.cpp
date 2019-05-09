@@ -307,7 +307,7 @@ vector<Position> Board::whereCanGo(Position chessPosition)
 	//Delete position if the position has already had chess
 	for (int i = 0; i < result.size(); i++)
 	{
-		if (Board::board[result[i].y][result[i].x].typeID != 0 || Board::canNotGo(chessTypeID >= 8))
+		if (Board::board[result[i].y][result[i].x].typeID != 0)
 		{
 			result.erase(result.begin() + i);
 			i--;
@@ -432,10 +432,10 @@ vector<Position> Board::whereCanEat(Position chessPosition)
 	//Delete position of space and my chesses
 	for (int i = 0; i < result.size(); i++)
 	{
-		if ((!(chessTypeID <= 7 && Board::board[result[i].y][result[i].x].typeID >= 8) &&
+		if (!(chessTypeID <= 7 && Board::board[result[i].y][result[i].x].typeID >= 8) &&
 			!(chessTypeID >= 8 &&
 			Board::board[result[i].y][result[i].x].typeID <= 7 &&
-			Board::board[result[i].y][result[i].x].typeID >= 1)) || Board::canNotGo(chessTypeID >= 8))
+			Board::board[result[i].y][result[i].x].typeID >= 1))
 		{
 			result.erase(result.begin() + i);
 			i--;
@@ -493,9 +493,11 @@ intent: if you go you will be lose
 pre:	bool	----whoPlay
 post:	bool	---- if you can go: false	if you cannot go: true
 */
-bool Board::canNotGo(bool whoPlay)
+vector<Position> Board::canNotGoFilter(bool whoPlay, Position chessPosition, vector<Position> possible)
 {
 	Position bossPosition;
+
+	//get boss position
 	for (int i = 0; i < BOARD_HEIGHT; i++)
 	{
 		for (int j = 0; j < BOARD_WIDTH; j++)
@@ -509,8 +511,23 @@ bool Board::canNotGo(bool whoPlay)
 			}
 		}
 	}
-	
-	return false;
+
+	for (int i = 0; i < possible.size(); i++)
+	{
+		Board possibleBoard = Board::move(chessPosition, possible[i]);
+		vector<Position> enemyChess;
+
+		//get enemy chess
+		if (whoPlay)	//red
+			enemyChess = possibleBoard.getAllBlackPosition();
+		else	//black
+			enemyChess = possibleBoard.getAllRedPosition();
+
+		if (possibleBoard.check(whoPlay))
+			possible.erase(possible.begin() + i--);
+	}
+
+	return possible;
 }
 
 /*
