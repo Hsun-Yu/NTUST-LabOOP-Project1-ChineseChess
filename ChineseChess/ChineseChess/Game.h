@@ -52,6 +52,9 @@ public:
 	void selectChess();				//type enter
 	void move(Position lastPosition, Position newPosition);
 	void resetMarkPosition();
+
+	bool checkRedBossIsLife();
+	bool checkBlackBossIsLife();
 	//void showOption();
 
 	vector<Position> getAllRedPosition();
