@@ -22,5 +22,11 @@ public:
 	vector<Position> goAndEatShare(Position chessPosition);
 	vector<Position> whereCanGo(Position chessPosition);	//use position to get ChessTypeID and return every where possible
 	vector<Position> whereCanEat(Position chessPosition);	//use position to get ChessTypeID and return every where possible
+	Board move(Position lastPosition, Position newPosition);
+
+	bool check(bool whoPlay);
+
+	vector<Position> getAllRedPosition();
+	vector<Position> getAllBlackPosition();
 };
 

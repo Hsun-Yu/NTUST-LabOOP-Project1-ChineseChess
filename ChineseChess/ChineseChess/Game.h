@@ -55,8 +55,6 @@ public:
 	bool checkBlackBossIsLife();
 	//void showOption();
 
-	vector<Position> getAllRedPosition();
-	vector<Position> getAllBlackPosition();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
