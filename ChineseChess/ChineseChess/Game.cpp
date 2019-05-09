@@ -174,18 +174,11 @@ void Game::gameLog(Chess che, Position from, Position to)
 	}
 	else 
 	{
-		if (to.y > from.y)
-		{
-			str += "進";
-		}
-		else
-		{
-			str += "進";
-		}
+		str += che.colour ^ (to.y > from.y) ? "進" : "退";
 
 		if (to.x == from.x)
 		{
-			str += Game::road[che.colour][abs(to.y - from.y)];
+			str += Game::road[che.colour][che.colour ? abs(to.y - from.y) - 1 : 8 - (abs(to.y - from.y) - 1)];
 		}
 		else
 		{
@@ -217,11 +210,6 @@ post: void
 void Game::display()
 {
 	system("cls");
-
-	// TODO: For testing!
-	Game::gameLog(board[0][0], Position(0, 0), Position(0, 6));
-	Game::gameLog(board[9][1], Position(1, 9), Position(1, 7));
-	Game::gameLog(board[3][2], Position(2, 2), Position(2, 1));
 
 	ifstream inputS("Chessboard\\board_template.txt");
 	string str;
@@ -284,9 +272,11 @@ void Game::display()
 
 	// Output game log.
 	setTextStyle(WHITE, BLACK);
-	for (int i = 0; i < Game::situation.size(); i++)
+	int situCount = Game::situation.size();
+	int num = 0;
+	for (int i = situCount > 18 ? situCount - 18 : 0; i < situCount; i++, num++)
 	{
-		Game::setCursorXY(4, 3 + i);
+		Game::setCursorXY(4, 3 + num);
 		cout.width(3);
 		cout << i + 1 << " ";
 		if (Game::situation[i].substr(0, 3) == "黑")
@@ -496,7 +486,6 @@ void Game::inGame()
 			switch (c)
 			{
 			case 72:
-
 				Game::chessMarkPosition = Up(objPosition); //Up
 				Game::setCursorBoardXY(Game::chessMarkPosition);
 				break;
