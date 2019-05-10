@@ -167,8 +167,7 @@ void Game::gameLog(Chess che, Position from, Position to)
 
 	str = che.colour ? "紅 : " : "黑 : ";
 
-
-	// Check how many chess behind it
+	// Check how many chess behind it.
 	for (int i = 0; i < 10; i++)
 	{
 		if (board[i][from.x].typeID == che.typeID)
@@ -183,7 +182,8 @@ void Game::gameLog(Chess che, Position from, Position to)
 
 	if (che.colour) thisChessOrder = sameChess - 1 - thisChessOrder;
 
-	// 士和象不分前後
+	// First two words. 
+	// If the road only has one chess or chess is 士, 象, 仕, 相.
 	if (sameChess == 1 || che.typeID == 2 || che.typeID == 3 || che.typeID == 9 || che.typeID == 10)
 	{
 		str += che.show;
@@ -191,72 +191,26 @@ void Game::gameLog(Chess che, Position from, Position to)
 	}
 	else
 	{
-		switch (sameChess)
+		string orderString[4][5] = {
+			{"後", "前"},
+			{"後", "中", "前"},
+			{"後", "三", "二", "前"},
+			{"後", "四", "三", "二", "前"},
+		};
+		
+		for (int i = sameChess - 1; i >= 0; i--)
 		{
-		case 2:
-			str += (thisChessOrder == 0 ? "後" : "前") + che.show;
-			break;
-		case 3:
-			if (thisChessOrder == 2)
+			if (thisChessOrder == i)
 			{
-				str += "前";
+				str += orderString[sameChess - 2][i];
+				break;
 			}
-			else if (thisChessOrder == 1)
-			{
-				str += "中";
-			}
-			else
-			{
-				str += "後";
-			}
-			str += che.show;
-			break;
-		case 4:
-			if (thisChessOrder == 3)
-			{
-				str += "前";
-			}
-			else if (thisChessOrder == 2)
-			{
-				str += "二";
-			}
-			else if (thisChessOrder == 1)
-			{
-				str += "三";
-			}
-			else
-			{
-				str += "後";
-			}
-			str += che.show;
-			break;
-		default:
-			if (thisChessOrder == 4)
-			{
-				str += "前";
-			}
-			else if (thisChessOrder == 3)
-			{
-				str += "二";
-			}
-			else if (thisChessOrder == 2)
-			{
-				str += "三";
-			}
-			else if (thisChessOrder == 1)
-			{
-				str += "四";
-			}
-			else
-			{
-				str += "後";
-			}
-			str += che.show;
-			break;
 		}
+		
+		str += che.show;
 	}
 	
-
+	// Last two words.
 	if (to.y == from.y)
 	{
 		str += "平";
@@ -268,11 +222,11 @@ void Game::gameLog(Chess che, Position from, Position to)
 
 		if (to.x == from.x)
 		{
-			str += Game::road[che.colour][che.colour ? abs(to.y - from.y) - 1 : 8 - (abs(to.y - from.y) - 1)];
+			str += Game::road[che.colour][che.colour ? 8 - (abs(to.y - from.y) - 1) : abs(to.y - from.y) - 1];
 		}
 		else
 		{
-			str += Game::road[che.colour][to.x];
+			str += Game::road[che.colour][che.colour ? to.x : to.x];
 		}
 	}
 
@@ -339,11 +293,11 @@ void Game::display()
 	};
 
 	// Output board.
-	setTextStyle(PURPLE, WHITE);
+	setTextStyle(BLACK, KHIKI);
 	for (int i = 0; i <= 20; i++)
 	{
-		if (i == 1) setTextStyle(BLACK, WHITE);
-		if (i == 20) setTextStyle(PURPLE, WHITE);
+		if (i == 1) setTextStyle(BLACK, KHIKI);
+		if (i == 20) setTextStyle(BLACK, KHIKI);
 		Game::setCursorXY(24, i + 1);
 		cout << boardRows[i];
 	}
