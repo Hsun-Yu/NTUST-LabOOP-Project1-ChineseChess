@@ -14,6 +14,7 @@ Game::Game()
 	Game::initialize();
 	Game::display();
 	Game::inGame();
+	Game::endOfGame();
 }
 
 Game::~Game()
@@ -349,10 +350,7 @@ void Game::display()
 		Game::showCheckmate(Game::whoPlay);
 
 	if (Game::checkLose(Game::whoPlay))
-	{
-		//TODO (hsunyu):	show lose
-		cout << "你輸了" << endl;
-	}
+		isInGame = false;
 
 	setTextStyle(WHITE, BLACK);
 	setCursorBoardXY(Position(0, 0));
@@ -487,7 +485,6 @@ void Game::saveGame(string filename)
 
 void Game::saveBoard()
 {
-	//TODO (Hsunyu):
 	Game::boardHistoryIndex++;
 	if (Game::boardHistoryIndex < Game::boardHistory.size())
 	{
@@ -507,8 +504,8 @@ post: void.
 void Game::inGame()
 {
 	saveBoard();
-
-	while (1)
+	isInGame = true;
+	while (isInGame)
 	{
 		showWhoPlay();
 
@@ -849,8 +846,8 @@ bool Game::checkLose(bool whoPlay)
 		vector<Position> eat = Game::board.whereCanEat(allChessPosition[i]);
 		vector<Position> go = Game::board.whereCanGo(allChessPosition[i]);
 
-		eat = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, eat);
-		go = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, go);
+		eat = Game::board.canNotGoFilter(Game::whoPlay, allChessPosition[i], eat);
+		go = Game::board.canNotGoFilter(Game::whoPlay, allChessPosition[i], go);
 
 		for (int j = 0; j < eat.size(); j++)
 			mix.push_back(eat[j]);
@@ -943,4 +940,13 @@ void Game::showCheckmate(bool whoCheckmate)
 		cout << "黑方被將軍";
 	}
 	setTextStyle(WHITE, BLACK);
+}
+
+void Game::endOfGame()
+{
+	system("cls");
+	if (whoPlay)
+		cout << "黑方勝" << endl;
+	else
+		cout << "紅方勝" << endl;
 }

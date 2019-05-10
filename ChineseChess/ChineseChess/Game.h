@@ -60,6 +60,8 @@ public:
 	void showWhoPlay();
 	void showNowChess();
 	void showCheckmate(bool whoCheckmate);
+
+	void endOfGame();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
@@ -77,5 +79,7 @@ private:
 	vector<string> situation;
 
 	static string road[2][9]; //For logging step.
+
+	bool isInGame;
 };
 
