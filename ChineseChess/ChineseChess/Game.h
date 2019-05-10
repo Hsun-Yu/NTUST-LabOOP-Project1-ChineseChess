@@ -54,8 +54,6 @@ public:
 	void move(Position lastPosition, Position newPosition);
 	void resetMarkPosition();
 
-	bool checkRedBossIsLife();
-	bool checkBlackBossIsLife();
 	bool checkLose(bool whoPlay);
 
 
@@ -73,7 +71,7 @@ private:
 	Position lastPosition;
 	//int selectType;
 
-	int boardHistoryIndex;
+	int boardHistoryIndex = -1;
 	vector<Board> boardHistory;
 
 	vector<string> situation;

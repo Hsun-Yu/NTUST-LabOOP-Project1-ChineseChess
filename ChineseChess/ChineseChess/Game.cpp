@@ -230,7 +230,14 @@ void Game::gameLog(Chess che, Position from, Position to)
 		}
 	}
 
-	Game::situation.push_back(str);
+	if (Game::boardHistoryIndex < Game::situation.size())
+	{
+		Game::situation[Game::boardHistoryIndex] = str;
+		for (int i = Game::boardHistoryIndex + 1; i < Game::situation.size();)
+			Game::situation.erase(Game::situation.begin() + i);
+	}
+	else
+		Game::situation.push_back(str);
 }
 
 /*
@@ -316,8 +323,9 @@ void Game::display()
 
 	// Output game log.
 	setTextStyle(WHITE, BLACK);
-	int situCount = Game::situation.size();
+
 	int num = 0;
+	int situCount = Game::boardHistoryIndex;
 	for (int i = situCount > 18 ? situCount - 18 : 0; i < situCount; i++, num++)
 	{
 		Game::setCursorXY(4, 3 + num);
@@ -479,8 +487,16 @@ void Game::saveGame(string filename)
 
 void Game::saveBoard()
 {
-	Game::boardHistory.push_back(Game::board);
-	Game::boardHistoryIndex = Game::boardHistory.size() - 1;
+	//TODO (Hsunyu):
+	Game::boardHistoryIndex++;
+	if (Game::boardHistoryIndex < Game::boardHistory.size())
+	{
+		Game::boardHistory[Game::boardHistoryIndex] = Game::board;
+		for (int i = boardHistoryIndex + 1; i < Game::boardHistory.size();)
+			Game::boardHistory.erase(Game::boardHistory.begin() + i);
+	}
+	else
+		Game::boardHistory.push_back(Game::board);
 }
 
 /*
@@ -816,38 +832,6 @@ void Game::resetMarkPosition()
 			}
 		}
 	}
-}
-
-bool Game::checkRedBossIsLife()
-{
-	bool flag = 0;
-	for (int i = 0; i < BOARD_HEIGHT; i++)
-	{
-		for (int j = 0; j < BOARD_WIDTH; j++)
-		{
-			if (Game::board[i][j].typeID == 7)
-			{
-				flag = 1;
-			}
-		}
-	}
-	return flag;
-}
-
-bool Game::checkBlackBossIsLife()
-{
-	bool flag = 0;
-	for (int i = 0; i < BOARD_HEIGHT; i++)
-	{
-		for (int j = 0; j < BOARD_WIDTH; j++)
-		{
-			if (Game::board[i][j].typeID == 1)
-			{
-				flag = 1;
-			}
-		}
-	}
-	return flag;
 }
 
 bool Game::checkLose(bool whoPlay)
