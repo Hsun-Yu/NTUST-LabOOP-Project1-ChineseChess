@@ -17,6 +17,7 @@
 #define PURPLE FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY
 #define GOLD FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY
 #define KHIKI FOREGROUND_RED | FOREGROUND_GREEN
+#define LIGHTRED FOREGROUND_RED | FOREGROUND_INTENSITY
 
 class Game
 {
@@ -55,7 +56,6 @@ public:
 	void resetMarkPosition();
 
 	bool checkLose(bool whoPlay);
-
 
 	void showWhoPlay();
 	void showNowChess();

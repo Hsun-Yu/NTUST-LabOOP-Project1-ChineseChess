@@ -699,8 +699,8 @@ void Game::selectChess()
 	vector<Position> eat = Game::board.whereCanEat(Game::chessMarkPosition);
 	vector<Position> go = Game::board.whereCanGo(Game::chessMarkPosition);
 
-	eat = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, eat);
-	go = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, go);
+	//vector<Position> eatD = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, eat);
+	//vector<Position> goD = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, go);
 
 	vector<Position> mix;//eat and go
 	for (int i = 0; i < go.size(); i++)
@@ -713,6 +713,24 @@ void Game::selectChess()
 	{
 		markOnScreen(eat[i], GREEN);
 		mix.push_back(eat[i]);
+	}
+
+	vector<Position> mixD = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, mix);
+
+	for (int i = 0; i < mix.size(); i++)
+	{
+		bool ch = false;
+		for (int j = 0; j < mixD.size(); j++)
+		{
+			if (mixD[j].x == mix[i].x && mixD[j].y == mix[i].y)
+			{
+				ch = true;
+				break;
+			}
+		}
+
+		if (!ch)
+			markOnScreen(mix[i], PURPLE);
 	}
 
 	if (mix.size() != 0)
@@ -859,7 +877,16 @@ bool Game::checkLose(bool whoPlay)
 	if (mix.size() == 0)
 		return true;
 	else
-		return false;
+	{
+		for (int i = 0; i < allChessPosition.size(); i++)
+		{
+			if (Game::board[allChessPosition[i].y][allChessPosition[i].x].typeID % 7 == 1)
+				return false;
+		}
+
+		return true;
+	}
+
 }
 
 void Game::showWhoPlay()
@@ -933,11 +960,36 @@ void Game::showCheckmate(bool whoCheckmate)
 	{
 		setTextStyle(RED, BLACK);
 		cout << "紅方被將軍";
+		
+		vector<Position> v = Game::board.getAllBlackPosition();
+		
+		for (int i = 0; i < v.size(); i++)
+		{
+			vector<Position> eat = Game::board.whereCanEat(v[i]);
+			for (int j = 0; j < eat.size(); j++)
+			{
+				if (Game::board[eat[j].y][eat[j].x].typeID % 7 == 1)
+					Game::markOnScreen(v[i], LIGHTRED);
+			}
+		}
+		
 	}
 	else
 	{
 		setTextStyle(BLACK2, BLACK);
 		cout << "黑方被將軍";
+
+		vector<Position> v = Game::board.getAllRedPosition();
+
+		for (int i = 0; i < v.size(); i++)
+		{
+			vector<Position> eat = Game::board.whereCanEat(v[i]);
+			for (int j = 0; j < eat.size(); j++)
+			{
+				if (Game::board[eat[j].y][eat[j].x].typeID % 7 == 1)
+					Game::markOnScreen(v[i], LIGHTRED);
+			}
+		}
 	}
 	setTextStyle(WHITE, BLACK);
 }
@@ -949,4 +1001,47 @@ void Game::endOfGame()
 		cout << "黑方勝" << endl;
 	else
 		cout << "紅方勝" << endl;
+
+	cout << "1.回放" << endl;
+	cout << "2.重新開始" << endl;
+
+	int in;
+	while (1)
+	{
+		cin >> in;
+		if (in == 1)
+		{
+			while (1)
+			{
+				Game::display();
+
+				char c = _getch();
+				if (c == 27) //esc
+				{
+					if (Game::menu()) return;
+				}
+				else if (c == 44) //<
+				{
+					if (Game::boardHistoryIndex - 1 >= 0)
+					{
+						Game::board = Game::boardHistory[--Game::boardHistoryIndex];
+						Game::display();
+					}
+				}
+				else if (c == 46) //>
+				{
+					if (Game::boardHistoryIndex + 1 < Game::boardHistory.size())
+					{
+						Game::board = Game::boardHistory[++Game::boardHistoryIndex];
+						Game::display();
+					}
+				}
+			}
+		}
+		else if (in == 2)
+		{
+			Game::initialize();
+			break;
+		}
+	}
 }
