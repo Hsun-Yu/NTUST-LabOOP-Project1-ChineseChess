@@ -3,7 +3,7 @@
 
 using namespace std;
 
-string Chess::showArray = "　將士象車馬包卒帥仕相車傌炮兵";
+string Chess::showArray = "　將士象車馬包卒帥仕相俥傌炮兵";
 
 /*
 intent: constructor of Chess
