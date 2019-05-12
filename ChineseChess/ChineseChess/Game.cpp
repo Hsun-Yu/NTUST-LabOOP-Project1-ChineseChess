@@ -1018,7 +1018,7 @@ void Game::endOfGame()
 				char c = _getch();
 				if (c == 27) //esc
 				{
-					if (Game::menu()) return;
+					return;
 				}
 				else if (c == 44) //<
 				{
