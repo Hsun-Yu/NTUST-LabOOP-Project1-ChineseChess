@@ -1010,10 +1010,33 @@ void Game::showCheckmate(bool whoCheckmate)
 void Game::endOfGame()
 {
 	system("cls");
+	
+	ifstream inputS("Chessboard\\flash.txt");
+	string str;
+	Game::setTextStyle(WHITE, BLACK);
+
+	while (getline(inputS, str))
+	{
+		cout << str << endl;
+	}
+
+	inputS.close();
+
 	if (whoPlay)
-		cout << "黑方勝" << endl;
+	{
+		Game::setTextStyle(BLACK, GRAY);
+		cout << "黑";
+		Game::setTextStyle(WHITE, BLACK);
+		cout << "方勝" << endl;
+	}
 	else
-		cout << "紅方勝" << endl;
+	{
+		Game::setTextStyle(RED, GRAY);
+		cout << "紅";
+		Game::setTextStyle(WHITE, BLACK);
+		cout << "方勝" << endl;
+	}
+		
 
 	cout << "1.回放" << endl;
 	cout << "2.重新開始" << endl;
