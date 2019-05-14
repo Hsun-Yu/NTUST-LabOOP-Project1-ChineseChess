@@ -760,6 +760,7 @@ void Game::selectChess()
 				if (chessMarkPosition.x == suicide[i].x && chessMarkPosition.y == suicide[i].y)
 				{
 					PlaySound(TEXT("Music\\suicide_sound.wav"), NULL, SND_SYNC);
+					PlaySound("Music\\endgame_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 				}
 			}
 			Game::move(Game::lastPosition, Game::chessMarkPosition);
