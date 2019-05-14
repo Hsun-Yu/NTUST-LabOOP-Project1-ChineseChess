@@ -813,8 +813,7 @@ void Game::selectChess()
 			{
 				if (chessMarkPosition.x == suicide[i].x && chessMarkPosition.y == suicide[i].y)
 				{
-					PlaySound(TEXT("Music\\suicide_sound.wav"), NULL, SND_SYNC);
-					PlaySound("Music\\endgame_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+					PlaySound(TEXT("Music\\suicide_sound.wav"), NULL, SND_SYNC);					
 				}
 			}
 			Game::move(Game::lastPosition, Game::chessMarkPosition);
@@ -864,12 +863,11 @@ void Game::AIMove()
 	vector<Position> allChessPosition = Game::board.getAllBlackPosition();
 	vector<Position> eatL, eatM, goL, goM, mixL, mixM;
 	int index = rand() % allChessPosition.size();
-
+	Sleep(500);
 	for (int i = 0; i < allChessPosition.size(); i++)
 	{
 		vector<Position> eat = Game::board.whereCanEat(allChessPosition[i]);
 		vector<Position> go = Game::board.whereCanGo(allChessPosition[i]);
-
 		eat = Game::board.canNotGoFilter(Game::whoPlay, allChessPosition[i], eat);
 		go = Game::board.canNotGoFilter(Game::whoPlay, allChessPosition[i], go);
 
@@ -1119,6 +1117,7 @@ void Game::showCheckmate(bool whoCheckmate)
 void Game::endOfGame()
 {
 	system("cls");
+	PlaySound("Music\\endgame_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::AIType = false;
 	ifstream inputS("Chessboard\\flash.txt");
 	string str;
