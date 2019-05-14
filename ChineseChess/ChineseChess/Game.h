@@ -3,6 +3,7 @@
 #include <fstream>
 #include <Windows.h>
 #include <conio.h>
+#include <MMSystem.h>
 #include "Board.h"
 #include "Position.h"
 

@@ -81,6 +81,7 @@ post: null
 */
 void Game::newGame()
 {
+	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
 }
 
@@ -717,6 +718,8 @@ void Game::selectChess()
 
 	vector<Position> mixD = Game::board.canNotGoFilter(Game::whoPlay, Game::lastPosition, mix);
 
+	vector<Position> suicide;
+
 	for (int i = 0; i < mix.size(); i++)
 	{
 		bool ch = false;
@@ -730,7 +733,10 @@ void Game::selectChess()
 		}
 
 		if (!ch)
+		{
 			markOnScreen(mix[i], PURPLE);
+			suicide.push_back(mix[i]);
+		}
 	}
 
 	if (mix.size() != 0)
@@ -749,6 +755,13 @@ void Game::selectChess()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
+			for (int i = 0; i < suicide.size(); i++)
+			{
+				if (chessMarkPosition.x == suicide[i].x && chessMarkPosition.y == suicide[i].y)
+				{
+					PlaySound(TEXT("Music\\suicide_sound.wav"), NULL, SND_SYNC);
+				}
+			}
 			Game::move(Game::lastPosition, Game::chessMarkPosition);
 			Game::display();
 			return;
