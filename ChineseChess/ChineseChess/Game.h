@@ -63,6 +63,7 @@ public:
 	void showCheckmate(bool whoCheckmate);
 
 	void endOfGame();
+	void playWithAI();
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
