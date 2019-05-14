@@ -93,7 +93,9 @@ post: null
 void Game::newGame()
 {
 	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
+	AIType = false;
 }
 
 /*
@@ -103,7 +105,11 @@ post: null
 */
 void Game::playWithAI()
 {
+	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	srand(time(NULL));
+
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
+	Game::AIType = true;
 }
 
 /*
@@ -113,6 +119,8 @@ post: null
 */
 void Game::lastGame()
 {
+	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+
 	string filename;
 	ifstream file;
 	do
@@ -123,6 +131,7 @@ void Game::lastGame()
 	} while (!file.is_open());
 	
 	Game::whoPlay = Game::board.readBoardFile(filename);
+	AIType = false;
 }
 
 /*
@@ -372,7 +381,7 @@ void Game::display()
 	if (Game::board.check(Game::whoPlay))	//Check is Check
 		Game::showCheckmate(Game::whoPlay);
 
-	if (Game::checkLose(Game::whoPlay))
+	if (Game::checkLose(Game::whoPlay) && Game::isInGame)
 	{
 		isInGame = false;
 		Game::endOfGame();
@@ -542,6 +551,14 @@ void Game::inGame()
 		allBlackPosition = Game::board.getAllBlackPosition();
 		vector<Position> objPosition;
 
+		if (!Game::whoPlay && Game::AIType)
+		{
+			Game::AIMove();
+			Game::display();
+
+			continue;
+		}
+
 		char c = 0;
 		c = _getch();
 		if (c == 13) //Enter
@@ -560,6 +577,12 @@ void Game::inGame()
 				Game::board = Game::boardHistory[--Game::boardHistoryIndex];
 				Game::whoPlay = !Game::whoPlay;
 				Game::resetMarkPosition();
+				if (Game::AIType)
+				{
+					Game::board = Game::boardHistory[--Game::boardHistoryIndex];
+					Game::whoPlay = !Game::whoPlay;
+					Game::resetMarkPosition();
+				}
 				Game::display();
 			}
   		}
@@ -570,6 +593,12 @@ void Game::inGame()
 				Game::board = Game::boardHistory[++Game::boardHistoryIndex];
 				Game::whoPlay = !Game::whoPlay;
 				Game::resetMarkPosition();
+				if (Game::AIType)
+				{
+					Game::board = Game::boardHistory[--Game::boardHistoryIndex];
+					Game::whoPlay = !Game::whoPlay;
+					Game::resetMarkPosition();
+				}
 				Game::display();
 			}
   		}
@@ -829,6 +858,60 @@ void Game::selectChess()
 	}
 }
 
+void Game::AIMove()
+{
+	vector<Position> allChessPosition = Game::board.getAllBlackPosition();
+	vector<Position> eatL, eatM, goL, goM, mixL, mixM;
+	int index = rand() % allChessPosition.size();
+
+	for (int i = 0; i < allChessPosition.size(); i++)
+	{
+		vector<Position> eat = Game::board.whereCanEat(allChessPosition[i]);
+		vector<Position> go = Game::board.whereCanGo(allChessPosition[i]);
+
+		eat = Game::board.canNotGoFilter(Game::whoPlay, allChessPosition[i], eat);
+		go = Game::board.canNotGoFilter(Game::whoPlay, allChessPosition[i], go);
+
+		for (int j = 0; j < eat.size(); j++)
+		{
+			if (Game::board[eat[j].y][eat[j].x].typeID == 8)
+			{
+				Game::move(allChessPosition[i], eat[j]);
+				return;
+			}
+			else if (Game::board[eat[j].y][eat[j].x].typeID == 11)
+			{
+				Game::move(allChessPosition[i], eat[j]);
+				return;
+			}
+			else if (Game::board[eat[j].y][eat[j].x].typeID == 13)
+			{
+				Game::move(allChessPosition[i], eat[j]);
+				return;
+			}
+
+			//eatL.push_back(allChessPosition[i]);
+			//eatM.push_back(eat[j]);
+			mixL.push_back(allChessPosition[i]);
+			mixM.push_back(eat[j]);
+		}
+
+		if (go.size() != 0)
+		{
+			//goL.push_back(allChessPosition[i]);
+			//goM.push_back(go[rand() % go.size()]);
+			mixL.push_back(allChessPosition[i]);
+			mixM.push_back(go[rand() % go.size()]);
+		}
+	}
+
+	if (mixL.size() != 0)
+	{
+		int index = rand() % mixL.size();
+		Game::move(mixL[index], mixM[index]);
+	}
+}
+
 /*
 intent: move chess
 pre:	
@@ -1035,7 +1118,7 @@ void Game::showCheckmate(bool whoCheckmate)
 void Game::endOfGame()
 {
 	system("cls");
-	
+	Game::AIType = false;
 	ifstream inputS("Chessboard\\flash.txt");
 	string str;
 	Game::setTextStyle(WHITE, BLACK);
@@ -1069,8 +1152,8 @@ void Game::endOfGame()
 	int in;
 	while (1)
 	{
-		cin >> in;
-		if (in == 1)
+		char c = _getch();
+		if (c == '1')
 		{
 			while (1)
 			{
@@ -1099,10 +1182,9 @@ void Game::endOfGame()
 				}
 			}
 		}
-		else if (in == 2)
+		else if (c == '2')
 		{
-			Game::initialize();
-			break;
+			return;
 		}
 	}
 }

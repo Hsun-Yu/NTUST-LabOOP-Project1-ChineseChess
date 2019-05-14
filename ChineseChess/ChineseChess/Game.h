@@ -53,6 +53,7 @@ public:
 	Position Right(vector<Position> objPosition);
 	
 	void selectChess();				//type enter
+	void AIMove();
 	void move(Position lastPosition, Position newPosition);
 	void resetMarkPosition();
 
@@ -67,6 +68,7 @@ public:
 private:
 	Board board;
 	bool whoPlay;	//red true, black false
+	bool AIType;	//AI Type: true
 
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
