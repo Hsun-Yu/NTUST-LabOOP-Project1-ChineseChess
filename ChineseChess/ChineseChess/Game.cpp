@@ -14,7 +14,6 @@ Game::Game()
 	Game::initialize();
 	Game::display();
 	Game::inGame();
-	Game::endOfGame();
 }
 
 Game::~Game()
@@ -32,14 +31,26 @@ void Game::initialize()
 	system("cls");
 
 	cout << "1. New Game" << endl;
-	cout << "2. Last Game" << endl;
+	cout << "2. Play With AI" << endl;
+	cout << "3. Last Game" << endl;
 	cout << "Input number:" << endl;
 	while (1)
 	{
-		if (!getInitialType())
-			cout << "Please input the correct number!!" << endl;
+		//if (!getInitialType())
+		cout << "Please input the correct number!!" << endl;
+		//else
+		//	break;
+		char c = _getch();
+		if (c == '1') //1
+			Game::newGame();
+		else if (c == '2') //2
+			Game::playWithAI();
+		else if (c == '3') //3
+			Game::lastGame();
 		else
-			break;
+			continue;
+
+		break;
 	}
 	
 	//int x = getchar();
@@ -53,26 +64,26 @@ Pre:null
 Post:
 	bool ----if user input correct number return true, if not return false
 */
-bool Game::getInitialType()
-{
-	int number;
-	
-	cin >> number;
-
-	switch (number)
-	{
-	case 1:
-		newGame();
-		break;
-	case 2:
-		lastGame();
-		break;
-	default:
-		return false;
-		break;
-	}
-	return true;
-}
+//bool Game::getInitialType()
+//{
+//	int number;
+//	
+//	cin >> number;
+//
+//	switch (number)
+//	{
+//	case 1:
+//		newGame();
+//		break;
+//	case 2:
+//		lastGame();
+//		break;
+//	default:
+//		return false;
+//		break;
+//	}
+//	return true;
+//}
 
 /*
 intent: read initial board
@@ -80,6 +91,16 @@ pre: null
 post: null
 */
 void Game::newGame()
+{
+	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
+}
+
+/*
+intent: read initial board and play with AI
+pre: null
+post: null
+*/
+void Game::playWithAI()
 {
 	Game::whoPlay = Game::board.readBoardFile("Chessboard/Initial.txt");
 }
@@ -121,23 +142,24 @@ int Game::menu()
 
 	while (1)
 	{
-		cin >> num;
-		if (num == 1)
+		cout << "Please input the correct number!!" << endl;
+		char c = _getch();
+		if (c == '1')
 		{
 			Game::display();
 		}
-		else if (num == 2)
+		else if (c == '2')
 		{
 			Game::initialize();
 			Game::display();
 		}
-		else if (num == 3)
+		else if (c == '3')
 		{
 			Game::saveGame("Chessboard\\LastGame.txt");
 			Game::initialize();
 			Game::display();
 		}
-		else if (num == 4)
+		else if (c == '4')
 		{
 			system("cls");
 			return 1;
@@ -350,7 +372,10 @@ void Game::display()
 		Game::showCheckmate(Game::whoPlay);
 
 	if (Game::checkLose(Game::whoPlay))
+	{
 		isInGame = false;
+		Game::endOfGame();
+	}
 
 	setTextStyle(WHITE, BLACK);
 	setCursorBoardXY(Position(0, 0));
@@ -1026,7 +1051,7 @@ void Game::endOfGame()
 		
 
 	cout << "1.回放" << endl;
-	cout << "2.重新開始" << endl;
+	cout << "2.離開" << endl;
 
 	int in;
 	while (1)
@@ -1068,3 +1093,4 @@ void Game::endOfGame()
 		}
 	}
 }
+
